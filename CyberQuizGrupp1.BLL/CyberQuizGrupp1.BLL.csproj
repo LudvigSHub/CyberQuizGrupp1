@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CyberQuizGrupp1.DAL\CyberQuizGrupp1.DAL.csproj" />
+    <ProjectReference Include="..\CyberQuizGrupp1.SHARED\CyberQuizGrupp1.SHARED.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="CyberQuizGrupp1.API/CyberQuizGrupp1.API.csproj" />
+  <Project Path="CyberQuizGrupp1.BLL/CyberQuizGrupp1.BLL.csproj" />
+  <Project Path="CyberQuizGrupp1.DAL/CyberQuizGrupp1.DAL.csproj" />
+  <Project Path="CyberQuizGrupp1.SHARED/CyberQuizGrupp1.SHARED.csproj" />
+  <Project Path="CyberQuizGrupp1/CyberQuizGrupp1.UI.csproj" />
+</Solution>
