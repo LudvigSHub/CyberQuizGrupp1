@@ -1,0 +1,11 @@
+﻿/*HIERAKI FÖR DESIGN:
+app.css — gäller alla sidor och komponenter
+MainLayout.razor.css — gäller bara layout-strukturen
+Home.razor.css — gäller bara Home-sidan
+CategoryCard.razor.css — gäller bara den komponenten*/
+
+
+.slogan {
+    font-size: 5rem;
+    font-weight: bold;
+}
