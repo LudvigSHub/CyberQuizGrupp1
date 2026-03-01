@@ -70,6 +70,8 @@ h1, h2, h3 {
 }
 
 .btn-cyber {
+    width: 200px;
+    align-self: center;
     background-color: transparent;
     color: #00ff88;
     border: 1px solid #00ff88;
@@ -108,6 +110,24 @@ h1, h2, h3 {
 h1 {
     margin-bottom: 4rem;
 }
+
+.cyber-input {
+    background-color: #0a0a0f;
+    color: #e0e0e0;
+    border: 1px solid #00ff88;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    width: 250px;
+    outline: none;
+}
+
+    .cyber-input:focus {
+        border-color: #00ff88;
+    }
+
+    .cyber-input::placeholder {
+        color: #555;
+    }
 
 /*------------------------*/
 

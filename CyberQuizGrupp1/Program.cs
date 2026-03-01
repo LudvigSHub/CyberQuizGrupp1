@@ -1,11 +1,18 @@
 
 using CyberQuizGrupp1.UI.Components;
+using CyberQuizGrupp1.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+//added:
+builder.Services.AddHttpClient<AuthService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7231/");
+});
 
 var app = builder.Build();
 

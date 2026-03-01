@@ -1,0 +1,48 @@
+﻿@page "/register"
+@using CyberQuizGrupp1.UI.Services
+@inject NavigationManager Navigation
+@inject AuthService AuthService
+
+<PageTitle>Register</PageTitle>
+
+<div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 80vh; position: relative;">
+
+<h1>Registrera konto</h1>
+
+<div>
+    <EditForm Model="registerDTO" OnValidSubmit="HandleRegisterAsync">
+        <DataAnnotationsValidator /> @* aktiverar requred och compare i DTOn (RegisterDTO) *@
+
+        <div class="d-flex flex-column gap-3">
+            <input type="text" placeholder="Användarnamn" @bind-value="registerDTO.Username" class="cyber-input" />
+            <input type="password" placeholder="Lösenord" @bind-value="registerDTO.Password" class="cyber-input" />
+            <input type="password" placeholder="Bekräfta lösenord" @bind-value="registerDTO.ConfirmPassword" class="cyber-input" />
+            <button type="submit" class="btn-cyber">Registrera konto</button>
+
+            <div style="position: absolute; bottom: 10px;">
+                <ValidationSummary /> @* visar error meddelande skrivna i dton vi använder (RegisterDTO) *@
+            </div>
+        </div>
+    </EditForm>
+</div>
+</div>
+
+@code {
+
+    private RegisterDTO registerDTO = new(); //hämta registerDTO så vi kan binda till propsen i den, se @bind-value ovan
+    public string errorMessage = ""; // för att visa error meddelande om registrering misslyckas
+
+    private async Task HandleRegisterAsync()
+    {
+        var success = await AuthService.RegisterAsync(registerDTO); // anropa registerasync-metoden i authservice och skicka med registerDTO som innehåller användarens input
+        if (success) // om registreringen lyckades, skicka vidare till login page
+        {
+            Navigation.NavigateTo("/login");
+        }
+        else
+        {
+            errorMessage = "Registrering misslyckades. Försök igen.";
+        }
+    }
+
+}
