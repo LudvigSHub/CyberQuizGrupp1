@@ -1,35 +1,83 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using CyberQuizGrupp1.DAL.Data;
 using CyberQuizGrupp1.DAL.Identity;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using CyberQuizGrupp1.DAL.Repositories.Interfaces;
+using CyberQuizGrupp1.DAL.Repositories.Implementations;
+using CyberQuizGrupp1.Services.Interfaces;
+using CyberQuizGrupp1.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
-
+//lägg till dbcontext med sql server
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
+//konfigurera identity för autentisering
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    //lösenordskrav som går att justera för enklare testning!
+    options.Password.RequireDigit = true; //måste innehålla minst en siffra
+    options.Password.RequiredLength = 8; //minsta längd på lösenord är 8 tecken
+    options.Password.RequireNonAlphanumeric = false; //kräver inte specialtecken. justera efter om vi behöver.
+    options.Password.RequireUppercase = true; //måste innehålla minst en versal (ex. A)
+    options.Password.RequireLowercase = true; // måste innehålla minst en gemen (ex. a)
+})
+.AddEntityFrameworkStores<AppDbContext>()
+.AddDefaultTokenProviders();
+
+//registrera repositories (dependency injection)
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+//builder.Services.AddScoped<ISubCategoryRepository, SubCategoryRepository>(); //lägg till senare
+//builder.Services.AddScoped<IQuestionRepository, QuestionRepository>(); //lägg till senare
+//builder.Services.AddScoped<IAnswerOptionRepository, AnswerOptionRepository>(); //lägg till senare
+//builder.Services.AddScoped<IUserResultRepository, UserResultRepository>(); //lägg till senare
+
+//registrera services (business logic)
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+//builder.Services.AddScoped<ISubCategoryService, SubCategoryService>(); //lägg till senare
+//builder.Services.AddScoped<IQuestionService, QuestionService>(); //lägg till senare
+//builder.Services.AddScoped<IProgressionService, ProgressionService>(); //lägg till senare
+
+//lägg till controllers
+builder.Services.AddControllers();
+
+//lägg till swagger för api-dokumentation och testning
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+//lägg till cors för blazor-kommunikation
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowBlazor", policy =>
+    {
+        policy.WithOrigins("https://localhost:7001", "http://localhost:5000") //justera portar efter behov
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+//seeda databasen vid start (lägg till senare när DatabaseSeeder är klar)
+//using (var scope = app.Services.CreateScope())
+//{
+//    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+//    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+//    await DataBaseSeeder.SeedAsync(context, userManager);
+//}
+
+//konfigurera http request pipeline
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
-app.UseAuthentication();
+app.UseCors("AllowBlazor");
+app.UseAuthentication(); //viktigt för identity
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
