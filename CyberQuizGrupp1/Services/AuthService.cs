@@ -16,7 +16,13 @@ namespace CyberQuizGrupp1.UI.Services
         public async Task<bool> RegisterAsync(RegisterDTO dto)
         {
             var response = await _httpClient.PostAsJsonAsync("api/auth/register", dto); //skickar dton i JSON format till api endpointen och väntar på ett response
-            return response.IsSuccessStatusCode; //returnerar response status koden, true om det är 200-299, annars false/error, tex 400, 500 etc.
+            return response.IsSuccessStatusCode; //returnerar response status koden, true om det är 200-299, annars false/error, tex 400, 500 etc. kan se med swagger eller i devtools
+        }
+
+        public async Task<bool> LoginAsync(LoginDTO dto)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/auth/login", dto);
+            return response.IsSuccessStatusCode;
         }
     }
 }
