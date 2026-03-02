@@ -13,6 +13,11 @@ builder.Services.AddHttpClient<AuthService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:7231/");
 });
+//added:
+builder.Services.AddHttpClient<CategoryService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7231/");
+});
 
 var app = builder.Build();
 

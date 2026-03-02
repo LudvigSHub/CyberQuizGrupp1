@@ -1,8 +1,9 @@
-﻿@inject NavigationManager Navigation
+﻿@using CyberQuizGrupp1.UI.Services
+@inject NavigationManager Navigation
 
 
 <div class="category-card" @onclick="GoToSubCategoryPage">
-    <h2 class="category-title">Category.CategoryName</h2>
+    <h2 class="category-title">@Category.CategoryName</h2>
 
     <div class="category-details">
 
@@ -10,16 +11,16 @@
         {
             //använder class i css för att ändra färg på subkategorierna beroende på om de är låsta eller inte
             //@sub.IsLocked (från SubCategoryDTO) är true så blir det sub-locked, annars sub-unlocked
-            <p class="@(sub.IsLocked ? "sub-locked" : "sub-unlocked" )">sub.Name</p>
+            <p class="@(sub.IsLocked ? "sub-locked" : "sub-unlocked" )">@sub.Name</p>
         }
 </div>
-<p class="category-progress">Avklarade subkategorier: Category.CompletedSubCategories/Category.TotalSubCategories</p>
+<p class="category-progress">Avklarade subkategorier: @Category.CompletedSubCategories/@Category.TotalSubCategories</p>
 </div>
 
 
 @code {
 
-    [Parameter] //hämta en category från parent page
+    [Parameter] //hämta en category från parent page (Categories.razor)
     public CategoryDTO Category { get; set; } = new();
 
 
