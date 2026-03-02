@@ -60,12 +60,15 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 //seeda databasen vid start (lägg till senare när DatabaseSeeder är klar)
-//using (var scope = app.Services.CreateScope())
-//{
-//    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-//    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-//    await DataBaseSeeder.SeedAsync(context, userManager);
-//}
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await DatabaseSeeder.SeedAsync(context);
+
+    //var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    //var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    //await DataBaseSeeder.SeedAsync(context);
+}
 
 //konfigurera http request pipeline
 if (app.Environment.IsDevelopment())
