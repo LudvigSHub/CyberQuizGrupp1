@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CyberQuizGrupp1.DAL.Data;
 using CyberQuizGrupp1.DAL.Repositories.Interfaces;
+using CyberQuizGrupp1.SHARED.DTOs;
 using CyberQuizGrupp1.SHARED.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +20,7 @@ namespace CyberQuizGrupp1.DAL.Repositories.Implementations
         }
 
         //hämtar alla kategorier som en lista
-        public async Task<IEnumerable<CategoryModel>> GetAllAsync()
+        public async Task<List<CategoryModel>> GetAllAsync()
         {
             return await _context.Categories.ToListAsync();
         }

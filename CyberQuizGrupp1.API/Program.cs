@@ -4,8 +4,6 @@ using CyberQuizGrupp1.DAL.Data;
 using CyberQuizGrupp1.DAL.Identity;
 using CyberQuizGrupp1.DAL.Repositories.Interfaces;
 using CyberQuizGrupp1.DAL.Repositories.Implementations;
-using CyberQuizGrupp1.Services.Interfaces;
-using CyberQuizGrupp1.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +17,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     //lösenordskrav som går att justera för enklare testning!
     options.Password.RequireDigit = true; //måste innehålla minst en siffra
     options.Password.RequiredLength = 8; //minsta längd på lösenord är 8 tecken
-    options.Password.RequireNonAlphanumeric = false; //kräver inte specialtecken. justera efter om vi behöver.
+    options.Password.RequireNonAlphanumeric = false; //kräver inte specialtecken. justera om vi behöver.
     options.Password.RequireUppercase = true; //måste innehålla minst en versal (ex. A)
     options.Password.RequireLowercase = true; // måste innehålla minst en gemen (ex. a)
 })
@@ -51,7 +49,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowBlazor", policy =>
     {
-        policy.WithOrigins("https://localhost:7001", "http://localhost:5000") //justera portar efter behov
+        policy.WithOrigins("https://localhost:7231", "http://localhost:5037") //justera portar efter behov
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
