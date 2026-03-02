@@ -5,7 +5,7 @@
 <div class="category-card" @onclick="GoToSubCategoryPage">
     <h2 class="category-title">@Category.CategoryName</h2>
 
-    <div class="category-details">
+   @*  <div class="category-details">
 
         @foreach(var sub in Category.SubCategories)
         {
@@ -13,8 +13,8 @@
             //@sub.IsLocked (från SubCategoryDTO) är true så blir det sub-locked, annars sub-unlocked
             <p class="@(sub.IsLocked ? "sub-locked" : "sub-unlocked" )">@sub.Name</p>
         }
-</div>
-<p class="category-progress">Avklarade subkategorier: @Category.CompletedSubCategories/@Category.TotalSubCategories</p>
+</div> *@
+@*@<p class="category-progress">Avklarade subkategorier: @Category.CompletedSubCategories/@Category.TotalSubCategories</p> *@
 </div>
 
 
