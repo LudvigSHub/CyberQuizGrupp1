@@ -3,7 +3,7 @@
 namespace CyberQuizGrupp1.UI.Services
 {
 
-    //service som innehåller allt med authentication, login, register etc.
+    //service som innehåller allt med authentication, login, register etc. för att separera så mycket som möjligt och göra det lättare att ändra/felsöka
     public class AuthService
     {
         private readonly HttpClient _httpClient;

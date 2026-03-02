@@ -1,5 +1,4 @@
-﻿@using CyberQuizGrupp1.UI.Services
-@inject NavigationManager Navigation
+﻿@inject NavigationManager Navigation
 
 
 <div class="category-card" @onclick="GoToSubCategoryPage">
@@ -26,7 +25,7 @@
 
     private void GoToSubCategoryPage()
     {
-        Navigation.NavigateTo($"/subcategory/{Category.Id}"); 
+        Navigation.NavigateTo($"/subcategories/{Category.Id}"); 
     }
 
 }
