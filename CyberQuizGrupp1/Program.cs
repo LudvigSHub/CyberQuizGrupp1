@@ -1,6 +1,8 @@
 
 using CyberQuizGrupp1.UI.Components;
 using CyberQuizGrupp1.UI.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

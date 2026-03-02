@@ -5,16 +5,16 @@
 
 <PageTitle>Categories</PageTitle>
 
-<h1 class="mb-2" style="text-shadow: 0 0 20px #00ff88;">Välj en kategori</h1>
 
-<div class="d-flex flex-wrap gap-3 justify-content-center align-items-center" style="min-height: 30vh; position: relative;">
+    <h1 class="mb-4">Välj en kategori</h1>
+
+    <div class="d-flex flex-wrap gap-3 justify-content-center">
 
 @foreach(var category in categories)
 {
         <CategoryCard Category="@category" />
         //parametern heter Category från CategoryCard.razor, skicka varje category i listan categories till CategoryCard
 }
-
 </div>
 
 @code {

@@ -5,9 +5,7 @@
 
 <PageTitle>Login</PageTitle>
 
-<div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 80vh; position: relative;">
-
-    <h1>Logga in</h1>
+    <h1 class="mb-4">Logga in</h1>
 <div>
     <EditForm Model="loginDTO" OnValidSubmit="HandleLoginAsync">
         <DataAnnotationsValidator />
@@ -23,7 +21,6 @@
         </div>
 
     </EditForm>
-</div>
 </div>
 
 @code {
