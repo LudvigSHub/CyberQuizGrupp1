@@ -4,6 +4,8 @@ using CyberQuizGrupp1.DAL.Data;
 using CyberQuizGrupp1.DAL.Identity;
 using CyberQuizGrupp1.DAL.Repositories.Interfaces;
 using CyberQuizGrupp1.DAL.Repositories.Implementations;
+using CyberQuizGrupp1.BLL.Interfaces;
+using CyberQuizGrupp1.BLL.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

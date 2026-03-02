@@ -4,6 +4,7 @@ using CyberQuizGrupp1.SHARED.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CyberQuizGrupp1.SHARED.DTOs;
+using CyberQuizGrupp1.BLL.Interfaces;
 
 namespace CyberQuizGrupp1.Controllers
 {
