@@ -1,0 +1,29 @@
+﻿@inject NavigationManager Navigation
+
+<div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 80vh;">
+
+    <h1 class="subcategory-title">@SubCategory.Name</h1>
+    <p class="quiestion-count">Antal frågor: @SubCategory.QuestionCount</p>
+
+    @if (SubCategory.IsLocked)
+    {
+        <button class="btn-cyber btn-cyber-locked" disabled>🔒 Låst</button>
+    }
+    else
+    {
+        <button class="btn-cyber" @onclick="GoToQuiz">Starta quiz</button>
+    }
+
+</div>
+
+
+@code {
+
+    private SubCategoryDTO SubCategory { get; set; } = new();
+
+    private void GoToQuiz()
+    {
+        Navigation.NavigateTo($"/quiz/{SubCategory.Id}"); //LÄGG TILL PAGE")
+    }
+
+}

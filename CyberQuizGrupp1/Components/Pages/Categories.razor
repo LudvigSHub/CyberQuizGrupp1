@@ -1,0 +1,19 @@
+﻿@page "/categories"
+
+<PageTitle>Categories</PageTitle>
+
+<div class="d-flex flex-wrap gap-3 justify-content-center">
+
+@foreach(var cat in categories)
+{
+    <CategoryCard/>
+}
+
+</div>
+
+@code {
+
+    private List<CategoryDTO> categories = [];
+
+
+}
