@@ -1,0 +1,28 @@
+﻿@page "/categories"
+@using CyberQuizGrupp1.UI.Services
+@inject CategoryService CategoryService
+@rendermode InteractiveServer
+
+<PageTitle>Categories</PageTitle>
+
+<div class="d-flex flex-wrap gap-3 justify-content-center">
+
+@foreach(var category in categories)
+{
+        <CategoryCard Category="@category" />
+        //parametern heter Category från CategoryCard.razor, skicka varje category i listan categories till CategoryCard
+}
+
+</div>
+
+@code {
+
+    private List<CategoryDTO> categories = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        categories = await CategoryService.GetCategoriesAsync();
+    }
+
+
+}
