@@ -2,19 +2,24 @@
 @using CyberQuizGrupp1.UI.Services
 @inject NavigationManager Navigation
 @inject AuthService AuthService
+@rendermode InteractiveServer
 
 <PageTitle>Register</PageTitle>
 
 <h1 class="mb-4">Registrera konto</h1>
 
 <div>
+    @* TILLFÄLLIG DEBUG:
+    <p style="color: yellow;">@debugMessage</p> *@
+    <p style="color: red;">@errorMessage</p>
+
     <EditForm Model="registerDTO" OnValidSubmit="HandleRegisterAsync">
         <DataAnnotationsValidator /> @* aktiverar requred och compare i DTOn (RegisterDTO) *@
 
         <div class="d-flex flex-column gap-3">
-            <input type="text" placeholder="Användarnamn" @bind-value="registerDTO.Username" class="cyber-input" />
-            <input type="password" placeholder="Lösenord" @bind-value="registerDTO.Password" class="cyber-input" />
-            <input type="password" placeholder="Bekräfta lösenord" @bind-value="registerDTO.ConfirmPassword" class="cyber-input" />
+            <InputText placeholder="Användarnamn" @bind-Value="registerDTO.Username" class="cyber-input" />
+            <InputText type="password" placeholder="Lösenord" @bind-Value="registerDTO.Password" class="cyber-input" />
+            <InputText type="password" placeholder="Bekräfta lösenord" @bind-Value="registerDTO.ConfirmPassword" class="cyber-input" />
             <button type="submit" class="btn-cyber">Registrera konto</button>
 
                 <div style="position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); white-space: nowrap;">
@@ -28,9 +33,18 @@
 
     private RegisterDTO registerDTO = new(); //hämta registerDTO så vi kan binda till propsen i den, se @bind-value ovan
     private string errorMessage = ""; // för att visa error meddelande om registrering misslyckas
+    
+    
+    // TILLFÄLLIG DEBUG:
+    // private string debugMessage = ""; 
+
 
     private async Task HandleRegisterAsync()
     {
+        //TILLFÄLLIG DEBUG:
+        // debugMessage = "HandleRegisterAsync called";
+
+
         var success = await AuthService.RegisterAsync(registerDTO); // anropa registerasync-metoden i authservice och skicka med registerDTO som innehåller användarens input
         if (success) // om registreringen lyckades, skicka vidare till login page
         {

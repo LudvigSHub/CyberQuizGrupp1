@@ -2,7 +2,7 @@
 
 
 <div class="category-card" @onclick="GoToSubCategoryPage">
-    <h2 class="category-title">@Category.CategoryName</h2>
+    <h3 class="category-title">@Category.CategoryName</h3>
 
    @*  <div class="category-details">
 
@@ -27,5 +27,4 @@
     {
         Navigation.NavigateTo($"/subcategories/{Category.Id}"); 
     }
-
 }
