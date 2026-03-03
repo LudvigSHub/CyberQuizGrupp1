@@ -28,14 +28,14 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 //registrera repositories (dependency injection)
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-//builder.Services.AddScoped<ISubCategoryRepository, SubCategoryRepository>(); //lägg till senare
+builder.Services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
 //builder.Services.AddScoped<IQuestionRepository, QuestionRepository>(); //lägg till senare
 //builder.Services.AddScoped<IAnswerOptionRepository, AnswerOptionRepository>(); //lägg till senare
 //builder.Services.AddScoped<IUserResultRepository, UserResultRepository>(); //lägg till senare
 
 //registrera services (business logic)
 builder.Services.AddScoped<ICategoryService, CategoryService>();
-//builder.Services.AddScoped<ISubCategoryService, SubCategoryService>(); //lägg till senare
+builder.Services.AddScoped<ISubCategoryService, SubCategoryService>(); //röd markering på grund av att BLL inte implementerat ISubCategoryService och SubCategoryService än?
 //builder.Services.AddScoped<IQuestionService, QuestionService>(); //lägg till senare
 //builder.Services.AddScoped<IProgressionService, ProgressionService>(); //lägg till senare
 
