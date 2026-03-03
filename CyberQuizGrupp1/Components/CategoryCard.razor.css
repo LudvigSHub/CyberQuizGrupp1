@@ -6,8 +6,7 @@
     cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
-    max-width: 400px;
-    width: 100%;
+    width: 400px;
     height: 250px;
     text-align: center;
     display: flex;
