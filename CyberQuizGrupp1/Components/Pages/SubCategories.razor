@@ -1,0 +1,33 @@
+﻿@page "/subcategories/{categoryId:int}"
+@using CyberQuizGrupp1.UI.Services
+@inject SubCategoryService SubCategoryService
+@rendermode InteractiveServer
+
+<PageTitle>Categories</PageTitle>
+
+
+<h1 class="mb-4">Välj en subkategori</h1>
+
+<div class="d-flex flex-wrap gap-3 justify-content-center">
+
+    @foreach (var sub in subCategories)
+    {
+        <CategoryCard SubCategory="@sub" />
+        //parametern heter SubCategory från SubCategoryCard.razor, skicka varje subcategory i listan subCategories till SubCategoryCard
+    }
+</div>
+
+@code {
+
+    [Parameter]
+    public int categoryId { get; set; } //hämta categoryId från url:en, se @page ovan MÅSTE HA SAMMA NAMN HÄR SOM I URL OVAN
+
+    private List<SubCategoryDTO> subCategories = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        subCategories = await SubCategoryService.GetSubCategoriesAsync(categoryId);
+    }
+
+
+}
