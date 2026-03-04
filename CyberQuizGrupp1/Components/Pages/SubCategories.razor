@@ -1,4 +1,4 @@
-﻿@page "/subcategories/{categoryId:int}"
+﻿@page "/categories/{categoryId:int}/subcategories"
 @using CyberQuizGrupp1.UI.Services
 @inject SubCategoryService SubCategoryService
 @rendermode InteractiveServer
@@ -26,8 +26,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        subCategories = await SubCategoryService.GetSubCategoriesAsync(categoryId);
+        var userId = "8986e9ac-c569-4f3a-b4ab-ee6d9c9e04f6"; //HÅRDKODAT FÖR ATT TESTA (anv 1 id), TA BORT SEN
+        subCategories = await SubCategoryService.GetSubCategoriesAsync(categoryId, userId);
+
+        //SKA SÅ SMÅNINGONG OM VARA DETTA:
+        // var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        // var userId = authState.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "";
     }
-
-
 }

@@ -1,10 +1,16 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager Navigation
 
 <div class="page">
     @* <div class="sidebar">
         <NavMenu />
     </div> *@
     <header class="app-header">
+        @* visa endast knappen om vi INTE är på home page/start page *@
+        @if (Navigation.Uri != Navigation.BaseUri)
+        {
+            <button class="btn-cyber" style="width: auto;" @onclick="GoBack">← Tillbaka</button>
+        }
         <h3 class="cyber-quiz">Cyber Quiz</h3>
     </header>
 
@@ -24,3 +30,10 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+@code{
+    private void GoBack()
+    {
+        Navigation.NavigateTo("javascript:history.back()");
+    }
+}
