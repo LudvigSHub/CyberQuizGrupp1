@@ -2,6 +2,7 @@
 
 namespace CyberQuizGrupp1.UI.Services
 {
+    //service för allt som har med categories att göra, för att separera så mycket som möjligt och göra det lättare att ändra/felsöka
     public class CategoryService
     {
 
