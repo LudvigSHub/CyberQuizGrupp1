@@ -1,15 +1,9 @@
 ﻿@inject NavigationManager Navigation
 
-
-@* 
-AI:
-No, remove Category entirely from this component. The subcategory card only needs SubCategoryDTO — it has its own data like Name, QuestionCount, and IsLocked.
-The CompletedSubCategories/TotalSubCategories progress belongs on the categories page (the parent), not on each individual subcategory card. Remove that line: *@
-
 <div class="category-card">
 <h1 class="subcategory-title">@SubCategory.Name</h1>
 <p class="question-count">Antal frågor: @SubCategory.QuestionCount</p>
-    <p class="category-progress">Avklarade subkategorier: @Category.CompletedSubCategories/@Category.TotalSubCategories</p>
+    
 @if (SubCategory.IsLocked)
 {
     <button class="btn-cyber btn-cyber-locked" disabled>🔒 Låst</button>
@@ -25,8 +19,6 @@ else
 
     [Parameter] //hämta en subcategory från parent page (subCategories.razor)
     public SubCategoryDTO SubCategory { get; set; } = new();
-
-    public CategoryDTO Category { get; set; } = new();
 
     private void GoToQuiz()
     {

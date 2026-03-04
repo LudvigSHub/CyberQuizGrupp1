@@ -11,6 +11,10 @@
         {
             <button class="btn-cyber" style="width: auto;" @onclick="GoBack">← Tillbaka</button>
         }
+        else
+        {   //osynlig knapp för att få samma storlek på headern även utan knappen:
+            <button class="btn-cyber" style="width: auto; visibility: hidden;">← Tillbaka</button>
+        }
         <h3 class="cyber-quiz">Cyber Quiz</h3>
     </header>
 
@@ -31,7 +35,7 @@
     <span class="dismiss">🗙</span>
 </div>
 
-@code{
+@code {
     private void GoBack()
     {
         Navigation.NavigateTo("javascript:history.back()");

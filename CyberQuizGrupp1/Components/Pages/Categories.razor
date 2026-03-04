@@ -1,6 +1,9 @@
 ﻿@page "/categories"
 @using CyberQuizGrupp1.UI.Services
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
 @inject CategoryService CategoryService
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @rendermode InteractiveServer
 
 <PageTitle>Categories</PageTitle>
@@ -21,10 +24,12 @@
 
     private List<CategoryDTO> categories = [];
 
+    //denna metod körs när pagen laddas, hämtar inloggad användare och använder id:t för att hämta kategorierna som tillhör den användaren
     protected override async Task OnInitializedAsync()
     {
-        categories = await CategoryService.GetCategoriesAsync();
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var userId = authState.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+
+        categories = await CategoryService.GetCategoriesAsync(userId);
     }
-
-
 }
