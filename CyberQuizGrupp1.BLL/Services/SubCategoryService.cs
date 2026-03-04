@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using CyberQuizGrupp1.BLL.Interfaces;
 using CyberQuizGrupp1.SHARED.DTOs;
+using CyberQuizGrupp1.SHARED.Models;
 using CyberQuizGrupp1.DAL.Repositories.Interfaces;
 
 namespace CyberQuizGrupp1.BLL.Services

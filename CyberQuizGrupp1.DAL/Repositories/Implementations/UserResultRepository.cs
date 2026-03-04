@@ -4,7 +4,11 @@ using System.Text;
 
 namespace CyberQuizGrupp1.DAL.Repositories.Implementations
 {
-    internal class UserResultRepository
+    public class UserResultRepository
     {
+        public void GetByUserIdAsync(int userId)
+        {
+
+        }
     }
 }
