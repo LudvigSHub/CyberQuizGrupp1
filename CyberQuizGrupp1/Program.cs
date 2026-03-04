@@ -17,6 +17,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 //added:
+builder.Services.AddScoped<UserService>();
+
+//added:
 builder.Services.AddScoped<AuthService>();
 //added:
 builder.Services.AddHttpClient<CategoryService>(client =>

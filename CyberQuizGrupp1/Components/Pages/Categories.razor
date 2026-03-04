@@ -3,7 +3,7 @@
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
 @inject CategoryService CategoryService
-@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject UserService UserService
 @rendermode InteractiveServer
 
 <PageTitle>Categories</PageTitle>
@@ -24,12 +24,11 @@
 
     private List<CategoryDTO> categories = [];
 
-    //denna metod körs när pagen laddas, hämtar inloggad användare och använder id:t för att hämta kategorierna som tillhör den användaren
+    
     protected override async Task OnInitializedAsync()
     {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var userId = authState.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
-
+        //hämtar användarid från metoden i UserService istället för att hämta det från urlen, det är säkrare eftersom vem som helst kan skriva in /userid... i urlen
+        var userId = await UserService.GetUserIdAsync();
         categories = await CategoryService.GetCategoriesAsync(userId);
     }
 }
