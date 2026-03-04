@@ -334,4 +334,3 @@ public static class DatabaseSeeder
         }
     }
 }
-}

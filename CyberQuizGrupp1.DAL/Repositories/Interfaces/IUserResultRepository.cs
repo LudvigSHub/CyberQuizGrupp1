@@ -4,7 +4,8 @@ using System.Text;
 
 namespace CyberQuizGrupp1.DAL.Repositories.Interfaces
 {
-    internal interface IUserResultRepository
+    public interface IUserResultRepository
     {
+        Task<IEnumerable<object>> GetByUserIdAsync(string userId);
     }
 }

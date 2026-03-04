@@ -1,4 +1,6 @@
-﻿using CyberQuizGrupp1.Services.Interfaces;
+﻿//using CyberQuizGrupp1.Services.Interfaces;
+
+using CyberQuizGrupp1.BLL.Interfaces;
 using CyberQuizGrupp1.SHARED.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
