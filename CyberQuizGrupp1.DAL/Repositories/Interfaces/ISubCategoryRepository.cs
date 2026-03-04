@@ -7,7 +7,7 @@ namespace CyberQuizGrupp1.DAL.Repositories.Interfaces
 {
     public interface ISubCategoryRepository
     {
-        // hämta alla subkategorier för en kategori
+        //hämta alla subkategorier för en kategori 
         Task<List<SubCategoryModel>> GetByCategoryIdAsync(int categoryId);
     }
 }

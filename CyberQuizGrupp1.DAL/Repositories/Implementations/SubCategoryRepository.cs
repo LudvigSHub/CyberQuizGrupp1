@@ -10,20 +10,20 @@ namespace CyberQuizGrupp1.DAL.Repositories.Implementations
 {
     public class SubCategoryRepository : ISubCategoryRepository
     {
-        // injicerad databas-kontext för att prata med databasen
+        //injicerad databas-kontext för att prata med databasen
         private readonly AppDbContext _context;
 
-        // konstruktor som tar emot AppDbContext via dependency injection
+        //konstruktor som tar emot appdbcontext via dependency injection
         public SubCategoryRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        // hämtar subkategorier för en kategori och inkluderar questions (för questioncount i BLL)
+        //hämtar subkategorier för en kategori och inkluderar questions (för questioncount i bll)
         public async Task<List<SubCategoryModel>> GetByCategoryIdAsync(int categoryId)
         {
             return await _context.SubCategories
-                .Include(sc => sc.Questions) // inkludera questions så BLL kan räkna antal
+                .Include(sc => sc.Questions) //inkludera questions så bll kan räkna antal
                 .Where(sc => sc.CategoryId == categoryId)
                 .OrderBy(sc => sc.Id)
                 .ToListAsync();
