@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using CyberQuizGrupp1.DAL.Data;
-using CyberQuizGrupp1.DAL.Identity;
 using CyberQuizGrupp1.DAL.Repositories.Interfaces;
 using CyberQuizGrupp1.DAL.Repositories.Implementations;
 using CyberQuizGrupp1.BLL.Interfaces;
@@ -13,18 +12,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-//konfigurera identity för autentisering
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-{
-    //lösenordskrav som går att justera för enklare testning!
-    options.Password.RequireDigit = true; //måste innehålla minst en siffra
-    options.Password.RequiredLength = 8; //minsta längd på lösenord är 8 tecken
-    options.Password.RequireNonAlphanumeric = false; //kräver inte specialtecken. justera om vi behöver.
-    options.Password.RequireUppercase = true; //måste innehålla minst en versal (ex. A)
-    options.Password.RequireLowercase = true; // måste innehålla minst en gemen (ex. a)
-})
-.AddEntityFrameworkStores<AppDbContext>()
-.AddDefaultTokenProviders();
+////konfigurera identity för autentisering
+//builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+//{
+//    //lösenordskrav som går att justera för enklare testning!
+//    options.Password.RequireDigit = true; //måste innehålla minst en siffra
+//    options.Password.RequiredLength = 8; //minsta längd på lösenord är 8 tecken
+//    options.Password.RequireNonAlphanumeric = false; //kräver inte specialtecken. justera om vi behöver.
+//    options.Password.RequireUppercase = true; //måste innehålla minst en versal (ex. A)
+//    options.Password.RequireLowercase = true; // måste innehålla minst en gemen (ex. a)
+//})
+//.AddEntityFrameworkStores<AppDbContext>()
+//.AddDefaultTokenProviders();
+
 
 //registrera repositories (dependency injection)
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
