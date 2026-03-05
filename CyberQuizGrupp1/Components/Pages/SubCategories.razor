@@ -28,7 +28,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var userId = await UserService.GetUserIdAsync();
-        subCategories = await SubCategoryService.GetSubCategoriesAsync(categoryId, userId);
+        await UserService.LoadUserAsync();
+        subCategories = await SubCategoryService.GetSubCategoriesAsync(categoryId, UserService.UserId);
     }
 }

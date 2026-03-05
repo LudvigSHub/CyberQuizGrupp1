@@ -1,8 +1,10 @@
 ﻿@page "/login"
 @using CyberQuizGrupp1.UI.Services
+@using Microsoft.AspNetCore.Authorization
 @inject NavigationManager Navigation
 @inject AuthService AuthService
-@* @rendermode InteractiveServer *@
+@* vem som helst kan nå denna page utan att vara inloggad via: *@
+@attribute [AllowAnonymous] 
 
 <PageTitle>Login</PageTitle>
 
