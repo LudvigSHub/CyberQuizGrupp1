@@ -31,7 +31,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
 //builder.Services.AddScoped<IQuestionRepository, QuestionRepository>(); //lägg till senare
 //builder.Services.AddScoped<IAnswerOptionRepository, AnswerOptionRepository>(); //lägg till senare
-//builder.Services.AddScoped<IUserResultRepository, UserResultRepository>(); //lägg till senare
+builder.Services.AddScoped<IUserResultRepository, UserResultRepository>(); //lägg till senare
 
 //registrera services (business logic)
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -51,7 +51,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowBlazor", policy =>
     {
-        policy.WithOrigins("https://localhost:7231", "http://localhost:5037") //justera portar efter behov
+        policy.WithOrigins("https://localhost:7142", "http://localhost:5110") //justera portar efter behov
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
