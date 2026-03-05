@@ -72,10 +72,10 @@ namespace CyberQuizGrupp1.DAL.Data
             // OPTIONAL: MANUELLA ID:N (endast om ni vill äga Id och INTE använda IDENTITY)
             // OBS: kräver i praktiken clean reset/ny migration om DB redan skapats med IDENTITY.
             // -------------------------
-            // modelBuilder.Entity<CategoryModel>().Property(x => x.Id).ValueGeneratedNever();
-            // modelBuilder.Entity<SubCategoryModel>().Property(x => x.Id).ValueGeneratedNever();
-            // modelBuilder.Entity<QuestionModel>().Property(x => x.Id).ValueGeneratedNever();
-            // modelBuilder.Entity<AnswerOptionModel>().Property(x => x.Id).ValueGeneratedNever();
+            //modelBuilder.Entity<CategoryModel>().Property(x => x.Id).ValueGeneratedNever();
+            //modelBuilder.Entity<SubCategoryModel>().Property(x => x.Id).ValueGeneratedNever();
+            //modelBuilder.Entity<QuestionModel>().Property(x => x.Id).ValueGeneratedNever();
+            //modelBuilder.Entity<AnswerOptionModel>().Property(x => x.Id).ValueGeneratedNever();
         }
     }
 }

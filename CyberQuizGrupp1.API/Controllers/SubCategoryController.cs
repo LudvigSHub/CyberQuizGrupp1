@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace CyberQuizGrupp1.API.Controllers
 {
     [ApiController]
-    [Route("api/categories")]
+    [Route("api/[controller]")]
     public class SubCategoriesController : ControllerBase
     {
         private readonly ISubCategoryService _subCategoryService;
@@ -22,8 +22,8 @@ namespace CyberQuizGrupp1.API.Controllers
             _subCategoryService = subCategoryService;
         }
 
-        //get: api/categories/1/subcategories
-        [Authorize] //kräver inloggning
+        // GET: api/subcategories/{categoryId}
+        //[Authorize] //kräver inloggning
         [HttpGet("{categoryId}")]
         public async Task<ActionResult<List<SubCategoryDTO>>> GetSubCategories(int categoryId, [FromQuery] string userId)
         {

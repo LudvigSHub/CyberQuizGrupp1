@@ -10,7 +10,7 @@ namespace CyberQuizGrupp1.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize] //aktivera senare när identity är klar?
+    //[Authorize] //aktivera senare när identity är klar?
     public class CategoriesController : ControllerBase
     {
         //injicera service för business logik
