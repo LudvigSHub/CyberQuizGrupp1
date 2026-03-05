@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CyberQuizGrupp1.SHARED.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,6 +7,7 @@ namespace CyberQuizGrupp1.DAL.Repositories.Interfaces
 {
     public interface IUserResultRepository
     {
-        Task<IEnumerable<object>> GetByUserIdAsync(string userId);
+        // Hämtar alla quiz-resultat för en specifik användare
+        Task<List<UserResultModel>> GetByUserIdAsync(string userId);
     }
 }
