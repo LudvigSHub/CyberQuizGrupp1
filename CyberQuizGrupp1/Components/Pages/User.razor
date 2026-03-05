@@ -6,7 +6,11 @@
 @* ska inte hämta userid i urlen, det är soäkert eftersom vem som helst kan skriva in /userid... i urlen
 hämta ist med authstate, det är säkrare och visar bara data för den som är inloggad  *@
 
-<h3>User</h3>
+<h2 class="mb-4">Välkommen till ditt konto</h2>
+<h1><span style="text-shadow: 0 0 20px #00ff88;">@userId</span></h1>
+
+@* epost: *@ 
+<button class="btn-cyber">Change password</button>
 
 @code {
 
@@ -16,7 +20,7 @@ hämta ist med authstate, det är säkrare och visar bara data för den som är 
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        userId = authState.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+        userId = authState.User.FindFirst(ClaimTypes.Name)?.Value ?? "";
     }
 
 }
