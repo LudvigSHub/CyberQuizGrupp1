@@ -1,6 +1,8 @@
-﻿@page "/subcategories/{categoryId:int}"
+﻿@page "/categories/{categoryId:int}/subcategories"
 @using CyberQuizGrupp1.UI.Services
+@using Microsoft.AspNetCore.Components.Authorization
 @inject SubCategoryService SubCategoryService
+@inject UserService UserService
 @rendermode InteractiveServer
 
 <PageTitle>Categories</PageTitle>
@@ -26,8 +28,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        subCategories = await SubCategoryService.GetSubCategoriesAsync(categoryId);
+        var userId = await UserService.GetUserIdAsync();
+        subCategories = await SubCategoryService.GetSubCategoriesAsync(categoryId, userId);
     }
-
-
 }

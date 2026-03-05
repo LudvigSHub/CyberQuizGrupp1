@@ -1,9 +1,9 @@
 ﻿@inject NavigationManager Navigation
 
-
+<div class="category-card">
 <h1 class="subcategory-title">@SubCategory.Name</h1>
 <p class="question-count">Antal frågor: @SubCategory.QuestionCount</p>
-
+    
 @if (SubCategory.IsLocked)
 {
     <button class="btn-cyber btn-cyber-locked" disabled>🔒 Låst</button>
@@ -12,7 +12,7 @@ else
 {
     <button class="btn-cyber" @onclick="GoToQuiz">Starta quiz</button>
 }
-
+</div>
 
 
 @code {

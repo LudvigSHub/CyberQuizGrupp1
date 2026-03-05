@@ -12,9 +12,17 @@ namespace CyberQuizGrupp1.UI.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<SubCategoryDTO>> GetSubCategoriesAsync(int categoryId)
+        //string i usedId som parameter, eftersom identity sparar användarens id som string
+        public async Task<List<SubCategoryDTO>> GetSubCategoriesAsync(int categoryId, string userId)
         {
-            return await _httpClient.GetFromJsonAsync<List<SubCategoryDTO>>($"api/subcategories/{categoryId}") ?? []; //abbas behöver göra en subcategory controller, kolla så endpointsen stämmer 
+            var url = $"api/subcategories/{categoryId}?userId={userId}";
+            return await _httpClient.GetFromJsonAsync<List<SubCategoryDTO>>(url) ?? [];
+
+            //kör det till vänster om ?? (url) ifall det inte är null, om det är null körs []; istället vilket innebär att en ny tom lista skapas för att undvika NullReferenceException
+            //annars skulle appen krasha om man loopar genom det i tex en foreach 
+
+            //tidigare:
+            //return await _httpClient.GetFromJsonAsync<List<SubCategoryDTO>>($"api/categories/{categoryId}/subcategories?userId={userId}") ?? [];  
 
         }
     }

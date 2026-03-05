@@ -3,17 +3,7 @@
 
 <div class="category-card" @onclick="GoToSubCategoryPage">
     <h3 class="category-title">@Category.CategoryName</h3>
-
-   @*  <div class="category-details">
-
-        @foreach(var sub in Category.SubCategories)
-        {
-            //använder class i css för att ändra färg på subkategorierna beroende på om de är låsta eller inte
-            //@sub.IsLocked (från SubCategoryDTO) är true så blir det sub-locked, annars sub-unlocked
-            <p class="@(sub.IsLocked ? "sub-locked" : "sub-unlocked" )">@sub.Name</p>
-        }
-</div> *@
-@*@<p class="category-progress">Avklarade subkategorier: @Category.CompletedSubCategories/@Category.TotalSubCategories</p> *@
+    <p class="category-progress">Avklarade subkategorier: @Category.CompletedSubCategories/@Category.TotalSubCategories</p>
 </div>
 
 
@@ -25,6 +15,6 @@
 
     private void GoToSubCategoryPage()
     {
-        Navigation.NavigateTo($"/subcategories/{Category.Id}"); 
+        Navigation.NavigateTo($"/categories/{Category.Id}/subcategories");
     }
 }

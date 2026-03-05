@@ -1,6 +1,9 @@
 ﻿@page "/categories"
 @using CyberQuizGrupp1.UI.Services
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
 @inject CategoryService CategoryService
+@inject UserService UserService
 @rendermode InteractiveServer
 
 <PageTitle>Categories</PageTitle>
@@ -21,10 +24,11 @@
 
     private List<CategoryDTO> categories = [];
 
+    
     protected override async Task OnInitializedAsync()
     {
-        categories = await CategoryService.GetCategoriesAsync();
+        //hämtar användarid från metoden i UserService istället för att hämta det från urlen, det är säkrare eftersom vem som helst kan skriva in /userid... i urlen
+        var userId = await UserService.GetUserIdAsync();
+        categories = await CategoryService.GetCategoriesAsync(userId);
     }
-
-
 }

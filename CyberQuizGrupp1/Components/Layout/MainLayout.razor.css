@@ -45,12 +45,17 @@ main {
     }
 
 .app-header {
-    text-align: center;
+    display: flex;
+    align-items: center;
     padding: 1.5rem;
     border-bottom: 1px solid #00ff8840;
+    position: relative;
 }
 
 .cyber-quiz {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     color: #00ff88;
     letter-spacing: 3px;
     margin: 0;

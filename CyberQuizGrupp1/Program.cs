@@ -12,9 +12,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-//LAGT TILL DETTA FÖR ATT ANVÄNDA IDENTITY, INSTALLERADE ENTITYFRAMEWORK OCH SQL SERVER
+//LAGT TILL DETTA FÖR ATT ANVÄNDA IDENTITY, INSTALLERADE IDENTITY ENTITYFRAMEWORK OCH SQL SERVER
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//added:
+builder.Services.AddScoped<UserService>();
 
 //added:
 builder.Services.AddScoped<AuthService>();
