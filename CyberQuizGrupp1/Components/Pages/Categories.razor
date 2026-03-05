@@ -27,8 +27,8 @@
     
     protected override async Task OnInitializedAsync()
     {
-        //hämtar användarid från metoden i UserService istället för att hämta det från urlen, det är säkrare eftersom vem som helst kan skriva in /userid... i urlen
-        var userId = await UserService.GetUserIdAsync();
-        categories = await CategoryService.GetCategoriesAsync(userId);
+        // //hämtar användarid från metoden i UserService istället för att hämta det från urlen, det är säkrare eftersom vem som helst kan skriva in /userid... i urlen
+        // var userId = await UserService.GetUserIdAsync();
+        categories = await CategoryService.GetCategoriesAsync();
     }
 }

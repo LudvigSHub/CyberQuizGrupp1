@@ -13,9 +13,9 @@ namespace CyberQuizGrupp1.UI.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<CategoryDTO>> GetCategoriesAsync(string userId)
+        public async Task<List<CategoryDTO>> GetCategoriesAsync()
         {
-            return await _httpClient.GetFromJsonAsync<List<CategoryDTO>>($"api/categories?userId={userId}") ?? [];
+            return await _httpClient.GetFromJsonAsync<List<CategoryDTO>>($"api/categories") ?? [];
         }
     }
 }
