@@ -1,26 +1,51 @@
 ﻿@page "/user"
+@using CyberQuizGrupp1.UI.Services
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Security.Claims
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject UserService UserService
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
 
 @* ska inte hämta userid i urlen, det är soäkert eftersom vem som helst kan skriva in /userid... i urlen
 hämta ist med authstate, det är säkrare och visar bara data för den som är inloggad  *@
 
-<h2 class="mb-4">Välkommen till ditt konto</h2>
-<h1><span style="text-shadow: 0 0 20px #00ff88;">@userId</span></h1>
+@if (UserService.IsAuthenticated)
+{
 
-@* epost: *@ 
-<button class="btn-cyber">Change password</button>
+    <h2 class="mb-4">Välkommen till ditt konto</h2>
+    <h1><span style="text-shadow: 0 0 20px #00ff88;">@UserService.Username</span></h1>
 
+    <p>@UserService.Email</p>
+    <button class="btn-cyber-danger">Change Email</button>
+    <button class="btn-cyber-danger">Change password</button>
+
+}
+else
+{
+    <h2 class="mb-4">Du måste vara inloggad för att se den här sidan</h2>
+    <button class="btn-cyber" @onclick="LogInPage">Logga in</button>
+}
 @code {
 
-    private string userId = "";
-
-    //hämta inloggad anv via metod i userservice
+    //gör det möjligt att hämta allt som har med användaren att göra (från userservice)
     protected override async Task OnInitializedAsync()
     {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        userId = authState.User.FindFirst(ClaimTypes.Name)?.Value ?? "";
+        await UserService.LoadUserAsync();
     }
+
+    public void LogInPage()
+    {
+        Navigation.NavigateTo("/login");
+    }
+
+
+
+    //hämta inloggad anv via metod i userservice
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    //     userId = authState.User.FindFirst(ClaimTypes.Name)?.Value ?? "";
+    // }
 
 }
