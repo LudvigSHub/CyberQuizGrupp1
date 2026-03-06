@@ -16,5 +16,6 @@ namespace CyberQuizGrupp1.SHARED.Models
         //lista av typen QuestionModel, namnet på listan är Questions, vi hämtar listan med get; och sätter till värdet av listan med set; men
         //om det inte finns något värde i listan, sätts den till tom = []; (samma sak som = new();) för att undvika krasher 
         public List<QuestionModel> Questions { get; set; } = []; //Questions är en navigation property, låter oss navigera ner till Questions, one to many, en SubCategoryModel kan ha många QuestionModels
+        public List<QuizAttemptModel> QuizAttempts { get; set; } = []; //QuizAttempts är en navigation property, låter oss navigera ner till QuizAttempts, one to many, en SubCategoryModel kan ha många QuizAttemptModels
     }
 }
