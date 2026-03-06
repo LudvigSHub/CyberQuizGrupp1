@@ -12,6 +12,7 @@ namespace CyberQuizGrupp1.SHARED.Models
         public bool IsCorrect { get; set; } //bool för att sätta om svaret är rätt eller fel
         public int QuestionId { get; set; } // foreign key som kopplar ihop och berättar vilken Question (parent) som AnswerOptions (child) tillhör 
         public QuestionModel Question { get; set; } // navigation property som låter oss navigera upp till parent (QuestionModel) från child (AnswerOptions), many to one, många AnswerOptions kan tillhöra en QuestionModel
+        public List<UserAnswerModel> UserAnswers { get; set; } = new (); //UserAnswers är en navigation property, låter oss navigera ner till UserAnswers, one to many, en AnswerOptionModel kan ha många UserAnswerModels
 
     }
 }

@@ -21,6 +21,8 @@ namespace CyberQuizGrupp1.DAL.Data
         public DbSet<QuestionModel> Questions { get; set; }
         public DbSet<AnswerOptionModel> AnswerOptions { get; set; }
         public DbSet<UserResultModel> UserResults { get; set; }
+        public DbSet<QuizAttemptModel> QuizAttempts { get; set; }
+        public DbSet<UserAnswerModel> UserAnswers { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -95,6 +97,35 @@ namespace CyberQuizGrupp1.DAL.Data
 
             modelBuilder.Entity<AnswerOptionModel>()
                 .HasIndex(x => new { x.QuestionId, x.Text })
+                .IsUnique();
+
+            // QuizAttempt -> SubCategory
+            modelBuilder.Entity<QuizAttemptModel>()
+                .HasOne(qa => qa.SubCategory)
+                .WithMany(sc => sc.QuizAttempts)
+                .HasForeignKey(qa => qa.SubCategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+            // UserAnswer -> QuizAttempt
+            modelBuilder.Entity<UserAnswerModel>()
+                .HasOne(ua => ua.Attempt)
+                .WithMany(a => a.UserAnswers)
+                .HasForeignKey(ua => ua.AttemptId)
+                .OnDelete(DeleteBehavior.Cascade);
+            // UserAnswer -> Question
+            modelBuilder.Entity<UserAnswerModel>()
+                .HasOne(ua => ua.Question)
+                .WithMany(q => q.UserAnswers)
+                .HasForeignKey(ua => ua.QuestionId)
+                .OnDelete(DeleteBehavior.Restrict);
+            // UserAnswer -> AnswerOption
+            modelBuilder.Entity<UserAnswerModel>()
+                .HasOne(ua => ua.SelectedAnswerOption)
+                .WithMany(ao => ao.UserAnswers)
+                .HasForeignKey(ua => ua.SelectedAnswerOptionId)
+                .OnDelete(DeleteBehavior.Restrict);
+            // Unique: ett svar per fråga per attempt
+            modelBuilder.Entity<UserAnswerModel>()
+                .HasIndex(ua => new { ua.AttemptId, ua.QuestionId })
                 .IsUnique();
 
             // -------------------------

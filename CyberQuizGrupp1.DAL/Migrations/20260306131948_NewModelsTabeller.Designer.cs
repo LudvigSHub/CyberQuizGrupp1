@@ -4,6 +4,7 @@ using CyberQuizGrupp1.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CyberQuizGrupp1.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260306131948_NewModelsTabeller")]
+    partial class NewModelsTabeller
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1170,8 +1173,6 @@ namespace CyberQuizGrupp1.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SubCategoryId");
-
                     b.ToTable("QuizAttempts");
                 });
 
@@ -1295,12 +1296,7 @@ namespace CyberQuizGrupp1.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("SelectedAnswerOptionId");
-
-                    b.HasIndex("AttemptId", "QuestionId")
-                        .IsUnique();
+                    b.HasIndex("AttemptId");
 
                     b.ToTable("UserAnswers");
                 });
@@ -1488,17 +1484,6 @@ namespace CyberQuizGrupp1.DAL.Migrations
                     b.Navigation("SubCategory");
                 });
 
-            modelBuilder.Entity("CyberQuizGrupp1.SHARED.Models.QuizAttemptModel", b =>
-                {
-                    b.HasOne("CyberQuizGrupp1.SHARED.Models.SubCategoryModel", "SubCategory")
-                        .WithMany("QuizAttempts")
-                        .HasForeignKey("SubCategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("SubCategory");
-                });
-
             modelBuilder.Entity("CyberQuizGrupp1.SHARED.Models.SubCategoryModel", b =>
                 {
                     b.HasOne("CyberQuizGrupp1.SHARED.Models.CategoryModel", "Category")
@@ -1518,23 +1503,7 @@ namespace CyberQuizGrupp1.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CyberQuizGrupp1.SHARED.Models.QuestionModel", "Question")
-                        .WithMany("UserAnswers")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CyberQuizGrupp1.SHARED.Models.AnswerOptionModel", "SelectedAnswerOption")
-                        .WithMany("UserAnswers")
-                        .HasForeignKey("SelectedAnswerOptionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Attempt");
-
-                    b.Navigation("Question");
-
-                    b.Navigation("SelectedAnswerOption");
                 });
 
             modelBuilder.Entity("CyberQuizGrupp1.SHARED.Models.UserResultModel", b =>
@@ -1599,11 +1568,6 @@ namespace CyberQuizGrupp1.DAL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CyberQuizGrupp1.SHARED.Models.AnswerOptionModel", b =>
-                {
-                    b.Navigation("UserAnswers");
-                });
-
             modelBuilder.Entity("CyberQuizGrupp1.SHARED.Models.CategoryModel", b =>
                 {
                     b.Navigation("SubCategories");
@@ -1612,8 +1576,6 @@ namespace CyberQuizGrupp1.DAL.Migrations
             modelBuilder.Entity("CyberQuizGrupp1.SHARED.Models.QuestionModel", b =>
                 {
                     b.Navigation("AnswerOptions");
-
-                    b.Navigation("UserAnswers");
                 });
 
             modelBuilder.Entity("CyberQuizGrupp1.SHARED.Models.QuizAttemptModel", b =>
@@ -1624,8 +1586,6 @@ namespace CyberQuizGrupp1.DAL.Migrations
             modelBuilder.Entity("CyberQuizGrupp1.SHARED.Models.SubCategoryModel", b =>
                 {
                     b.Navigation("Questions");
-
-                    b.Navigation("QuizAttempts");
                 });
 #pragma warning restore 612, 618
         }

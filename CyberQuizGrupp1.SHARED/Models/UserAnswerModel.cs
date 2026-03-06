@@ -11,7 +11,9 @@ namespace CyberQuizGrupp1.SHARED.Models
         public QuizAttemptModel Attempt { get; set; }
         public string UserId { get; set; }
         public int QuestionId { get; set; }
+        public QuestionModel Question { get; set; }
         public int SelectedAnswerOptionId { get; set; }
+        public AnswerOptionModel SelectedAnswerOption { get; set; }
         public bool IsCorrect { get; set; }
         public DateTime AnsweredAt { get; set; }
 

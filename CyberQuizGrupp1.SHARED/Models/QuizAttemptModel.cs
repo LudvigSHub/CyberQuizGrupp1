@@ -9,8 +9,10 @@ namespace CyberQuizGrupp1.SHARED.Models
         public Guid Id { get; set; }
         public string UserId { get; set; }
         public int SubCategoryId { get; set; }
+        public SubCategoryModel SubCategory { get; set; }
         public DateTime? StartedAt { get; set; }
         public DateTime? FinishedAt { get; set; }
         public List<UserAnswerModel> UserAnswers { get; set; } = new ();
+
      }
 }
