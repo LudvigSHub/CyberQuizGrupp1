@@ -1,5 +1,7 @@
-﻿@inherits LayoutComponentBase
+﻿@using CyberQuizGrupp1.UI.Services
+@inherits LayoutComponentBase
 @inject NavigationManager Navigation
+@inject AuthService AuthService
 
 <div class="page">
     @* <div class="sidebar">
@@ -16,7 +18,13 @@
             <button class="btn-cyber" style="width: auto; visibility: hidden;">← Tillbaka</button>
         }
         <h3 class="cyber-quiz">Cyber Quiz</h3>
-    </header>
+
+       @*  logga ut knappen syns inte sålänge url INTE är baseuri (home page) OCH inte ifall url innehåller login eller register *@
+        @if (Navigation.Uri != Navigation.BaseUri && !Navigation.Uri.Contains("/login") && !Navigation.Uri.Contains("/register"))
+        {
+        <button class="btn-cyber-danger" style="width: auto; margin-left: auto;" @onclick="Logout">Logga ut</button>
+        }
+        </header>
 
     <main>
         @* <div class="top-row px-4">
@@ -39,5 +47,11 @@
     private void GoBack()
     {
         Navigation.NavigateTo("javascript:history.back()");
+    }
+
+    private void Logout()
+    {
+        //forceload:true för att cookien ska rensas 
+        Navigation.NavigateTo("/", forceLoad: true);
     }
 }

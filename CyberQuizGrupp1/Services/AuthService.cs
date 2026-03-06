@@ -60,5 +60,10 @@ namespace CyberQuizGrupp1.UI.Services
             return result.Succeeded; //FRÅGA: vad gör vi med result? hur displayar vi result?
             //SVAR: returnerar result true / false tillbaka till pagen (ui register page) och ui bestämmer vad som displayas vid true (if (success) och vid false (else ...)
         }
+
+        public async Task LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
+        }
     }
 }

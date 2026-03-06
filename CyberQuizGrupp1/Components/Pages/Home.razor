@@ -1,5 +1,8 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Authorization
 @inject NavigationManager Navigation
+@* vem som helst kan nå denna page utan att vara inloggad via: *@
+@attribute [AllowAnonymous]
 
 <PageTitle>Home</PageTitle>
 
