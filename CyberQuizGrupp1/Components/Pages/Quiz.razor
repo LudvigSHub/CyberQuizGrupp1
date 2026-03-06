@@ -1,11 +1,12 @@
-﻿@page "/quiz"
+﻿@page "/quiz/{subCategoryId:int}"
 
 @* @foreach (var question in questionlist) *@
 @* {display card} *@
 
-<QuizCard />
+<QuizCard subCategoryId="@subCategoryId"/>
 
 @code {
-
+    [Parameter]
+    public int subCategoryId { get; set; }
 }
 

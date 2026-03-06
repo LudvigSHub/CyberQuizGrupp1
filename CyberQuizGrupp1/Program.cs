@@ -18,9 +18,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 //added:
 builder.Services.AddScoped<UserService>();
-
 //added:
 builder.Services.AddScoped<AuthService>();
+//added:
+builder.Services.AddHttpClient<QuizService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7231/");
+});
 //added:
 builder.Services.AddHttpClient<CategoryService>(client =>
 {
