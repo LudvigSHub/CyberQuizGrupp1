@@ -4,10 +4,9 @@ using System.Text;
 
 namespace CyberQuizGrupp1.SHARED.DTOs
 {
-    public class AnswerOptionDTO
+    public class FinishQuizDTO
     {
-        public int Id { get; set; }
-        public string Text { get; set; }
-        
+        public Guid AttemptId { get; set; }
+
     }
 }
