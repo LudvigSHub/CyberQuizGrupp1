@@ -41,7 +41,7 @@ namespace CyberQuizGrupp1.UI.Services
         //POST till api (POSTasjasonasync) skicka svaret (vill skicka questionId (frågan svaren tillhör) och answerId (id:t på svaret man valde), men de är ju i SubmittedAnswerDTO så skicka den)
         //jag får tillbaka en AnswerFeedBackDTO
         //lägg till ? efter vad som ska returneras eftersom vi då lovar att returnera antingen ett objekt elelr null (returnerar null längre enr i metoden). utan ? MÅSET vi alltid returnera ett objekt, aldirg null. returnerar vi null utan  ? får vi kompileringsfel
-        public async Task<AnswerFeedBackDTO?> SubmitAnswerAsync(SubmittedAnswerDTO dto)
+        public async Task<AnswerFeedbackDTO?> SubmitAnswerAsync(SubmitAnswerDTO dto)
         {
             //skicka repsonset till api:et
             //om det inte lyckas - printa felmeddelande
@@ -62,13 +62,13 @@ namespace CyberQuizGrupp1.UI.Services
 
             //response.Content hämtar json texten av http-svaret (response). ReadFromJsonAsync<AnswerFeedbackDTO>() omvandlar response.content från json till ett AnswerFeedBackDTO objekt
             //det som returneras är ett AnswerFeedBackDTO objekt med värdena. detta värdet hämtar vi sedan upp för att visa i pagen: var result = await QuizService.SubmitAnswerAsync(dto); result är nu ett AnswerFeedbackDTO-objekt
-            return await response.Content.ReadFromJsonAsync<AnswerFeedBackDTO>();
+            return await response.Content.ReadFromJsonAsync<AnswerFeedbackDTO>();
         }
 
         //POST 
         public async Task<QuizResultDTO?> FinishedQuizAsync(FinishQuizDTO dto)
         {
-            //skicka endpointed (finish är posten i apiet) + dto 
+            //skicka endpointed (finish är posten i apiet) + dto som parametrar
             var response = await _httpClient.PostAsJsonAsync("api/quiz/finish", dto);
             
             if (!response.IsSuccessStatusCode)
@@ -78,7 +78,7 @@ namespace CyberQuizGrupp1.UI.Services
                 return null;
             }
 
-            //får tillbaka ett objekt av QuizResultDTO fyllt med infon vi behöver displaya till användaren i pagen: var result = await QuizService.FinishedQuizAsync(dto); result är nu ett FinishedQuizAsync-objekt
+            //får tillbaka ett objekt av QuizResultDTO fyllt med infon vi behöver displaya till användaren i pagen: var result = await QuizService.FinishedQuizAsync(dto); result är nu ett QuizResultDTO-objekt
             return await response.Content.ReadFromJsonAsync<QuizResultDTO>();
         }
     }
