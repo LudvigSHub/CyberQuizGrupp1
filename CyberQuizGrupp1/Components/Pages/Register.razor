@@ -3,6 +3,9 @@
 @inject NavigationManager Navigation
 @inject AuthService AuthService
 @rendermode InteractiveServer
+@* vem som helst kan nå denna page utan att vara inloggad via: *@
+@using Microsoft.AspNetCore.Authorization
+@attribute [AllowAnonymous]
 
 <PageTitle>Register</PageTitle>
 

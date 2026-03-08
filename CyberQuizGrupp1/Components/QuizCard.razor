@@ -1,33 +1,145 @@
-﻿
-@* vad vill vi visa på quiz sidan?
--quizCard ska innehålla:
--frågor
--svar (radio buttons)
- *@
+﻿@using CyberQuizGrupp1.UI.Services
+@inject QuizService QuizService
+@inject UserService UserService
 
- <div>
- <h3>(Fråga)</h3>
 
-@*  <InputRadioGroup @bind-Value="selectedAnswerId"> 
-    <InputRadio Value="(svar1)"/>
-    <InputRadio Value="(svar2)"/>
-    <InputRadio Value="(svar3)"/>
-    <InputRadio Value="(svar4)"/>
-    </InputRadioGroup> *@
+<div>
+    @if (quiz is null) @* om quizet tar tid att laddas på pagen visas detta sålänge *@
+    {
+        <p>Laddar quiz</p>
+    }
+    else if (isFinished)
+    {
+    <div>
+        <h4>Du har gjort klart quizet!</h4>
+        <h1>Poäng: @correctAnswers / @totalQuestions</h1>
+    </div>
+    }
+    else
+    {
+    <h1>@quiz.SubCategoryName</h1>
 
-    <p>input</p>
+    <div class="category-card">
 
+        @{
+            var question = quiz.Questions[currentQuestionIndex]; @* hämta frågan vi är på *@
+         }
+
+        <h4>@question.Text</h4> @* displaya frågan *@
+        @foreach (var answer in question.AnswerOptions)@* för varje svar i svarsalternativen som tillhör frågan *@
+        {
+            @* radioknappar tilldelas en grupp (en fråga) via name så man bara kan klicka i ett svar i den gruppen (ett svar per fråga)
+               disabled="isSubmittingAnswer" : är disabled eller inte beroende på staten som isSubmittingAnswer har, är isSubmittingAnswer false är den aktiv, är isSubmittingAnswer true är den disabled
+                @onchange="() => SubmitAnswer(question.Id, answer.Id)" skicka med id på frågan och id på svaret användaren valde till SubmitAnswer metoden nedan
+                label ist för annan text typ eftersom label blir kopplat till radioknappen så man kan trycka på texten också, inte bara i knappen för att välja sitt svar
+                *@
+            <label>
+                <input type="radio"
+                       name="question-@question.Id"
+                       disabled="isSubmittingAnswer"
+                       @onchange="() => SubmitAnswer(question.Id, answer.Id)" />
+                @answer.Text @* svaret i textform *@
+            </label>
+        }
+
+        @* displayar meddelande om meddelande inte är tomt: *@
+        @if (!string.IsNullOrWhiteSpace(message))
+        {
+            <p>@message</p>
+        }
+
+    </div>
+    }
 </div>
-
-<h3>Quiz</h3>
 
 @code {
 
-    private int selectedAnswerId;
+    [Parameter] //hämta parametern från url:en (i detta fall id:t för den subkategori man klickar på följer med in i cardet (här)
+    //behöver vara public efetrsom blazor sätter värdet åt oss från url:en (vilket id på subcategorin det är), inte vi själva. om vi själva sätter värde hade det kunna vara private
+    public int SubCategoryId { get; set; }
 
-    // var submittedAnswer = new SubmittedAnswerDTO
-    // {
-    //     QuestionId = 
-    // }
+    private StartQuizDTO? quiz; //quizet som hämtas från apiet i servicen (via OnInitializedAsync nedan) sparas här i. ? tillåter variablen att vara null
+
+    private int currentQuestionIndex = 0; //field för att spara vilken fråga vi är på just nu (tex fråga 1, fråga 2 osv)
+    private bool isSubmittingAnswer = false; //field för att hålla reda på om användaren redan har svarat på den frågan, förhindrar att man kan svara flera gånger på samma fråga. när den är false är knappen upplåst och kan klickas
+    private bool isFinished = false; //field för att hålla reda på om quizet redan är gjort eller inte
+    private string message = ""; //field för att visa olika meddelande under quizet
+    private int correctAnswers = 0; //field för att hålla reda på hur många rätta svar man fick
+    private int totalQuestions = 0; //field för att hålla reda på hur många frågor där va totalt
+
+    protected override async Task OnInitializedAsync()
+    {
+        await UserService.LoadUserAsync();
+        quiz = await QuizService.GetQuizAsync(SubCategoryId, UserService.UserId);
+    }
+
+    private async Task SubmitAnswer(int questionId, int answerOptionId)
+    {
+        //om antingen quizet är null eller om frågan redan är svarad på (isSubmittingAnswer) eller om quizet är klart - avbryt hela SubmitAnswer metoden direkt
+        if (quiz is null || isSubmittingAnswer || isFinished) //quiz is null för om användaren klickar på ett svar innan quizet hunnit laddas kan quiz fortfarande vara null. is null ist för == null för det "är modernare"
+            return;
+
+        //detta körs om inget av det ovan stämmer, alltså
+        //om quizet är laddat, vi håller inte på att svara och quizet är inte klart, körs detta:
+        isSubmittingAnswer = true; //sätter att vi håller på att svara på frågan
+        message = ""; //rensar från tidigare messages från föregående fråga (se nedan och tänk att det går runt i en loop)
+
+        //skicka ett objekt för varje fråga som besvaras / varje svar som klickas
+        var dto = new SubmitAnswerDTO
+        {
+            AttemptId = quiz.AttemptId, //ta AttemptId från quiz som just startade och skicka samma id vidare i form av ett SubmitAnswerDTO objekt - detta separerar ifall samma användare vill göra samma quiz i framtiden, då blir det en ny omgång
+            QuestionId = questionId, //skickar id för frågan användaren svarar på
+            SelectedAnswerOptionId = answerOptionId //skickar id för svaret användaren valde
+        };
+
+        //skcika vidare DTOn ovan till SubmitAnswerAsync i QuizService för att få kontrollerat om svaret är rätt/fel
+        var result = await QuizService.SubmitAnswerAsync(dto);
+
+        //säkerhetskontroll
+        if (result is null)
+        {
+            message = "Något gick fel när svaret skickades";
+            isSubmittingAnswer = false; //ändra tillståndet / state. om något gick fel kan användaren klicka på ett svar på samma fråga en gång till. knappen är upplåst
+            return;
+        }
+
+        //om inga problem uppstod och vi har fått tillbaka ett resultat, kör detta:
+        message = result.IsCorrect ? "Rätt!" : "Fel!";
+
+        StateHasChanged(); //tvingar blazor att uppdatera ui så att result kan displayas
+
+        await Task.Delay(1500); //pausar i 1.5 sekunder (men låter saker fortsätta i bakgrunden) så att användaren hinner se om den svarat rätt/fel. Bättre än Thread.Sleep(1500) som fryser hela sidan
+
+        bool isLastQuestion = currentQuestionIndex >= quiz.Questions.Count - 1; //kollar ifall det är sista frågon genom att ta nuvarande fråga (tex fråga nr 3) och kolla ifall det är större än eller lika med så många frågor det finns i quiz, -1. -1 eftersom index i en lista (quiz.Questions är listan med frågor) börjar på 0, så sista frågan kommer få index 5 men med -1 hamnar vi på index 4, vilket är så många frågor där är i quiz.Questions vilket innebär att quizet för denna fråga är klart
+
+        if (isLastQuestion) //när det är sista frågan i quizet vill vi avsluta quizet, skcika iväg rundan och få tillbaka resultatet rättat av backenden
+        {
+            var finishQuizDTO = new FinishQuizDTO //tilldelar rundans id till AttemptId i quiz, så vi kan skicka vidare rundan så den når backenden där den avslutas
+            {
+                AttemptId = quiz.AttemptId
+            };
+
+            var finalResult = await QuizService.FinishedQuizAsync(finishQuizDTO); //skicka dton med denna rundans id till FinishedQuizAsync i QuizService som ger oss resultatet för denna omgång
+
+            if (finalResult is not null) //om resultatet inte är tomt (is not null ist för finalResult != null eftersom det är "modernare")
+            {
+                //här hämtar vi variablerna från backeneden med nya värden och uppdaterar dom i frontenden så vi kan displaya dom
+                correctAnswers = finalResult.CorrectAnswers;
+                totalQuestions = finalResult.TotalQuestions;
+            }
+
+            //ändra tillstånd / state. de olika fieldsens state påverkar tex synlighet av särskilld info i ui
+            isFinished = true;
+            isSubmittingAnswer = false;
+        }
+        else
+        {
+            //om det inte var alla frågor, fortsätt:
+            currentQuestionIndex++; //visa nästa fråga
+            message = ""; //rensa message
+            isSubmittingAnswer = false; //lås upp så användaren kan klicka på ett svar igen
+        }
+
+    }
 
 }

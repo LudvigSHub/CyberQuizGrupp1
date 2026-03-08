@@ -1,11 +1,12 @@
-﻿@page "/quiz"
+﻿@page "/quiz/{SubCategoryId:int}"
+@* ENDAST INLOGGAD HAR TILLGÅNG TILL DENNA PAGE: *@
+@attribute [Authorize]
 
-@* @foreach (var question in questionlist) *@
-@* {display card} *@
 
-<QuizCard />
+<QuizCard subCategoryId="@SubCategoryId"/>
 
 @code {
-
+    [Parameter]
+    public int SubCategoryId { get; set; }
 }
 

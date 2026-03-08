@@ -4,6 +4,8 @@
 @inject SubCategoryService SubCategoryService
 @inject UserService UserService
 @rendermode InteractiveServer
+@* ENDAST INLOGGAD HAR TILLGÅNG TILL DENNA PAGE: *@
+@attribute [Authorize]
 
 <PageTitle>Categories</PageTitle>
 

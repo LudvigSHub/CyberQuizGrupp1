@@ -1,8 +1,9 @@
 ﻿@inject NavigationManager Navigation
 
-<div class="category-card">
-<h3 class="subcategory-title">@SubCategory.Name</h3>
-<p class="question-count">Antal frågor: @SubCategory.QuestionCount</p>
+<div class="subcategory-card">
+    <h3 class="bigTitle">@SubCategory.Name</h3>
+    <p class="miniTitle">Antal frågor: @SubCategory.QuestionCount</p>
+
     
 @if (SubCategory.IsLocked)
 {

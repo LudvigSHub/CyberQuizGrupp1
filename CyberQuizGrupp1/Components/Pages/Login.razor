@@ -1,9 +1,9 @@
 ﻿@page "/login"
 @using CyberQuizGrupp1.UI.Services
-@using Microsoft.AspNetCore.Authorization
 @inject NavigationManager Navigation
 @inject AuthService AuthService
 @* vem som helst kan nå denna page utan att vara inloggad via: *@
+@using Microsoft.AspNetCore.Authorization
 @attribute [AllowAnonymous] 
 
 <PageTitle>Login</PageTitle>
@@ -19,6 +19,17 @@
             <input type="password" placeholder="Lösenord" @bind-value="loginDTO.Password" class="cyber-input" />
             <button type="submit" class="btn-cyber">Logga in</button>
 
+            <div style="min-height: 1.5rem; text-align: center;">
+            @if(!string.IsNullOrEmpty(ErrorMessage))
+            {
+                <p class="cyber-message-danger">@ErrorMessage</p>
+            }
+            else
+            {
+                <p class="cyber-message">@Message</p>
+            }
+            </div>
+
                 <div style="position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); white-space: nowrap;">
                 <ValidationSummary />
             </div>
@@ -30,10 +41,15 @@
 @code {
 
     private LoginDTO loginDTO = new();
-    private string errorMessage = "";
+    private string ErrorMessage = "";
+    private string Message = "";
 
     private async Task HandleLoginAsync()
     {
+        Message = "Loggar in, vänligen vänta";
+        ErrorMessage = "";
+        StateHasChanged(); //tvingar blazor att rendera om så att texten syns med detsamma
+
         var success = await AuthService.LoginAsync(loginDTO);
         if(success)
         {
@@ -41,8 +57,7 @@
         }
         else
         {
-            errorMessage = "Felaktigt användarnamn eller lösenord";
+            ErrorMessage = "Felaktigt användarnamn eller lösenord";
         }
     }
-
 }

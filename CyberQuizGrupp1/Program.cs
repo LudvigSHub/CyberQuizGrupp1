@@ -18,9 +18,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 //added:
 builder.Services.AddScoped<UserService>();
-
 //added:
 builder.Services.AddScoped<AuthService>();
+//added:
+builder.Services.AddHttpClient<QuizService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7231/");
+});
 //added:
 builder.Services.AddHttpClient<CategoryService>(client =>
 {
@@ -67,7 +71,7 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 app.MapControllers();
-app.Run();
+
 
 //för att kunna logga ut: 
 //en vanlig signoutasync i en page funkar inte i en signal r/interactive-server komponent eftersom http responsen redan är skickad, gör detta ist:
@@ -77,3 +81,5 @@ app.MapPost("/logout", async (SignInManager<ApplicationUser> signInManager) =>
     await signInManager.SignOutAsync();
     return Results.Redirect("/");
 });
+
+app.Run();
