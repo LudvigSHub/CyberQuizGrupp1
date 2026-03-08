@@ -22,15 +22,17 @@
        @*  logga ut knappen syns inte sålänge url INTE är baseuri (home page) OCH inte ifall url innehåller login eller register *@
         @if (Navigation.Uri != Navigation.BaseUri && !Navigation.Uri.Contains("/login") && !Navigation.Uri.Contains("/register"))
         {
-        <button class="btn-cyber-danger" style="width: auto; margin-left: auto;" @onclick="Logout">Logga ut</button>
+
+        @*  KAN INTE vara en klassisk onclick metod (nedan) för att logga ut. navigation med forceload:true till /logout är en POST-endpoint, men navigateto gör en GET-request, fick ändra till form *@
+        @* <button class="btn-cyber-danger" style="width: auto; margin-left: auto;" @onclick="Logout">Logga ut</button> *@
+            <form action="/logout" method="post" style="margin-left: auto;">
+                <AntiforgeryToken />
+                <button type="submit" class="btn-cyber-danger" style="width: auto;">Logga ut</button>
+            </form>
         }
         </header>
 
     <main>
-        @* <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div> *@
-
         <article class="content px-4 d-flex flex-column align-items-center justify-content-center" style="min-height: 80vh;">
             @Body
         </article>
@@ -49,9 +51,10 @@
         Navigation.NavigateTo("javascript:history.back()");
     }
 
-    private void Logout()
-    {
-        //forceload:true för att cookien ska rensas 
-        Navigation.NavigateTo("/logout", forceLoad: true);
-    }
+    //FUNKAR INTE:
+    // private void Logout()
+    // {
+    //     //forceload:true för att cookien ska rensas 
+    //     Navigation.NavigateTo("/logout", forceLoad: true);
+    // }
 }

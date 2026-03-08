@@ -1,19 +1,43 @@
 ﻿@page "/"
+@using CyberQuizGrupp1.UI.Services
 @using Microsoft.AspNetCore.Authorization
 @inject NavigationManager Navigation
+
 @* vem som helst kan nå denna page utan att vara inloggad via: *@
 @attribute [AllowAnonymous]
 
+@* DEBUGGING: för att kolla ifall man verkigen loggas ut / ifall man fortfarande är inloggad utan att logga ut innan man stänger ner sidan *@
+@inject UserService UserService
+
+
+
 <PageTitle>Home</PageTitle>
+
+@* DEBUGGING:isautheniticated returnerar true/false *@
+@* <p>Inloggad: @UserService.IsAuthenticated</p> 
+<p>Användare: @UserService.Username</p>  *@
+
 
 <h1 class="slogan">Slogan</h1>
 
 <div class="d-flex flex-column gap-3">
-<button class="btn-cyber" @onclick="GoToLoginPage">Logga in</button>
-<button class="btn-cyber" @onclick="GoToRegisterPage">Registrera konto</button>
+    <button class="btn-cyber" @onclick="GoToLoginPage">Logga in</button>
+    <button class="btn-cyber" @onclick="GoToRegisterPage">Registrera konto</button>
 </div>
 
 @code {
+
+    //om man redan är inloggad / om amn inte loggade ut innan man stängde fönstret så hamnar man direkt på catgeories istället för login page
+    protected override async Task OnInitializedAsync()
+    {
+        await UserService.LoadUserAsync();
+
+        if(UserService.IsAuthenticated)
+        {
+            Navigation.NavigateTo("/categories");
+        }
+    }
+  
 
     private void GoToLoginPage()
     {
