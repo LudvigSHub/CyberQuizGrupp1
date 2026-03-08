@@ -17,7 +17,7 @@
         {   //osynlig knapp för att få samma storlek på headern även utan knappen:
             <button class="btn-cyber" style="width: auto; visibility: hidden;">← Tillbaka</button>
         }
-        <h3 class="cyber-quiz">Cyber Quiz</h3>
+        <h3 class="cyber-quiz" @onclick="GoHome" style="cursor: pointer;">Cyber Quiz</h3>
 
        @*  logga ut knappen syns inte sålänge url INTE är baseuri (home page) OCH inte ifall url innehåller login eller register *@
         @if (Navigation.Uri != Navigation.BaseUri && !Navigation.Uri.Contains("/login") && !Navigation.Uri.Contains("/register"))
@@ -49,6 +49,12 @@
     private void GoBack()
     {
         Navigation.NavigateTo("javascript:history.back()");
+    }
+
+    private void GoHome()
+    {
+        //navigeras antingen till home eller categories beroende på om man är inloggad eller ej (tack vare OnInitialized i home pagen)
+        Navigation.NavigateTo("/");
     }
 
     //FUNKAR INTE:
