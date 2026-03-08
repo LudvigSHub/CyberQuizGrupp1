@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using CyberQuizGrupp1.BLL.Interfaces;
+using CyberQuizGrupp1.DAL.Repositories.Interfaces;
 using CyberQuizGrupp1.SHARED.DTOs;
 using CyberQuizGrupp1.SHARED.Models;
 
