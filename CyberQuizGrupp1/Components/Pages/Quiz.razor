@@ -1,4 +1,6 @@
 ﻿@page "/quiz/{SubCategoryId:int}"
+@* ENDAST INLOGGAD HAR TILLGÅNG TILL DENNA PAGE: *@
+@attribute [Authorize]
 
 
 <QuizCard subCategoryId="@SubCategoryId"/>

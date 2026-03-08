@@ -1,9 +1,9 @@
 ﻿@page "/"
 @using CyberQuizGrupp1.UI.Services
-@using Microsoft.AspNetCore.Authorization
 @inject NavigationManager Navigation
 
 @* vem som helst kan nå denna page utan att vara inloggad via: *@
+@using Microsoft.AspNetCore.Authorization
 @attribute [AllowAnonymous]
 
 @* DEBUGGING: för att kolla ifall man verkigen loggas ut / ifall man fortfarande är inloggad utan att logga ut innan man stänger ner sidan *@
