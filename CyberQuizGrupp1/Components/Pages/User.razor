@@ -4,6 +4,7 @@
 @using System.Security.Claims
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject UserService UserService
+@inject AuthService AuthService
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
 @* ENDAST INLOGGAD HAR TILLGÅNG TILL DENNA PAGE: *@
@@ -14,13 +15,24 @@ hämta ist med authstate, det är säkrare och visar bara data för den som är 
 
 @if (UserService.IsAuthenticated)
 {
-
     <h2 class="mb-4">Välkommen till ditt konto</h2>
-    <h1><span style="text-shadow: 0 0 20px #00ff88;">@UserService.Username</span></h1>
+    <div class="d-flex flex-column gap-3 align-items-center">
+        <h1 style="text-shadow: 0 0 20px #00ff88;" class="mb-0">@UserService.Username</h1>
+        <p class="miniTitle mt-0">@currentEmail</p>
 
-    <p>@UserService.Email</p>
-    <button class="btn-cyber-danger">Change Email</button>
-    <button class="btn-cyber-danger">Change password</button>
+        <div class="d-flex flex-row gap-4 justify-content-center align-items-center mt-5">
+            <div class="d-flex flex-column gap-3 align-items-center">
+                <input type="email" placeholder="Ny email" @bind-value="newEmail" class="cyber-input" />
+                <button class="btn-cyber-danger" style="width: auto;" @onclick="ChangeEmail">Ändra email</button>
+            </div>
+            <div class="d-flex flex-column gap-3 align-items-center">
+                <input type="password" placeholder="Nytt lösenord" @bind-value="newPassword" class="cyber-input" />
+                <button class="btn-cyber-danger" style="width: auto;" @onclick="ChangePassword">Ändra lösenord</button>
+            </div>
+        </div>
+        <p class="cyber-message">@Message</p>
+    </div>
+
 
 }
 else
@@ -28,12 +40,19 @@ else
     <h2 class="mb-4">Du måste vara inloggad för att se den här sidan</h2>
     <button class="btn-cyber" @onclick="LogInPage">Logga in</button>
 }
+
 @code {
+
+    private string newEmail = ""; //används för input
+    private string newPassword = ""; //används för input
+    private string currentEmail = ""; //används för att displaya
+    private string Message = "";
 
     //gör det möjligt att hämta allt som har med användaren att göra (från userservice)
     protected override async Task OnInitializedAsync()
     {
         await UserService.LoadUserAsync();
+        currentEmail = await AuthService.GetEmailAsync(UserService.UserId);
     }
 
     public void LogInPage()
@@ -41,13 +60,24 @@ else
         Navigation.NavigateTo("/login");
     }
 
+    public async Task ChangeEmail()
+    {
+        var success = await AuthService.ChangeEmailAsync(UserService.UserId, newEmail); //skicka userid och newemail till ChangeEmailAsync i servicen som uppdaterar email åt oss
+        if (success)
+        {
+            currentEmail = await AuthService.GetEmailAsync(UserService.UserId); //hämtar uppdaterad mejl
+            newEmail = "";
+            Message = "Din email har ändrats"; //info till anävndaren
+            StateHasChanged(); //uppdaterar ui
 
+            await Task.Delay(2000); //visar meddelandet i 2 sekunder
+            Message = ""; //rensar message
+            StateHasChanged();
+        }
+    }
 
-    //hämta inloggad anv via metod i userservice
-    // protected override async Task OnInitializedAsync()
-    // {
-    //     var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-    //     userId = authState.User.FindFirst(ClaimTypes.Name)?.Value ?? "";
-    // }
-
+    public async Task ChangePassword()
+    {
+       
+    }
 }

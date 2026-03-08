@@ -21,9 +21,10 @@
 
         <div class="d-flex flex-column gap-3">
             <InputText placeholder="Användarnamn" @bind-Value="registerDTO.Username" class="cyber-input" />
+            <InputText type="email" placeholder="Email" @bind-Value="registerDTO.Email" class="cyber-input" />
             <InputText type="password" placeholder="Lösenord" @bind-Value="registerDTO.Password" class="cyber-input" />
             <InputText type="password" placeholder="Bekräfta lösenord" @bind-Value="registerDTO.ConfirmPassword" class="cyber-input" />
-            <button type="submit" class="btn-cyber">Registrera konto</button>
+            <button type="submit" class="btn-cyber" style="width: auto;">Registrera konto</button>
 
                 <div style="position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); white-space: nowrap;">
                 <ValidationSummary /> @* visar error meddelande skrivna i dton vi använder (RegisterDTO) *@

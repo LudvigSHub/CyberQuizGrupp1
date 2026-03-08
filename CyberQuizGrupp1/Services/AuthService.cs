@@ -43,7 +43,11 @@ namespace CyberQuizGrupp1.UI.Services
         {
             //skapar en ny user (instans av applicationuser) endast med username från dto
             //sparar dock inte password här efetrsom det  hade sparats som ren text och innebär en securisty risk, vi aldrig sparadet råa lösenordet i user objectet
-            var user = new ApplicationUser { UserName = dto.Username };
+            var user = new ApplicationUser 
+            { 
+                UserName = dto.Username,
+                Email = dto.Email
+            };
             //skcikar password separat till usermanager som hanterar hashning och säker lagring av lösenordet i databasen
             //skickar med både användarnamn(user) och password som en egen parameter för att skapa en ny användare i databasen
             var result = await _userManager.CreateAsync(user, dto.Password);
@@ -64,6 +68,29 @@ namespace CyberQuizGrupp1.UI.Services
         public async Task LogoutAsync()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        public async Task<bool> ChangeEmailAsync(string userId, string newEmail)
+        {
+            //kontrollera att användaren vi fick som parameter faktiskt finns, spara det i user
+            var user = await _userManager.FindByIdAsync(userId); //leta upp användaren i databasen
+            if(user is null) //om användare inte finns, avbryt
+            { 
+                return false; 
+            }
+
+            //Identity kräver en säkerhetsoken av säkerhetsskäl för att byta email, kollar att ändringen är tillåten så inte vem som helst ska kunna ändra andras email tex via apiet. tokenen är bevis på att ändringen skapades i servern
+            var token = await _userManager.GenerateChangeEmailTokenAsync(user, newEmail);
+            var result = await _userManager.ChangeEmailAsync(user, newEmail, token); //byter emailen i databasen
+            return result.Succeeded;
+
+            
+        }
+
+        public async Task<string> GetEmailAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId); //leta upp användaren i databasen via userId
+            return user?.Email ?? ""; //user?.Email - om user inte är null hämta email, annars (??) returnera null
         }
     }
 }
