@@ -15,11 +15,11 @@ namespace CyberQuizGrupp1.SHARED.DTOs
         public string Email { get; set; }
 
         [Required]
-        [MinLength(6, ErrorMessage = "Password must be at least 6 characters long")]
+        [MinLength(6, ErrorMessage = "Lösenordet måste vara minst 7 tecken långt.")]
         public string Password { get; set; }
 
         [Required]
-        [Compare("Password", ErrorMessage = "Passwords do not match")]
+        [Compare("Password", ErrorMessage = "Lösenorden matchar inte.")]
         public string ConfirmPassword { get; set; }
     }
 }
