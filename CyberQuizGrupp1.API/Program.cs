@@ -29,6 +29,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 //registrera repositories (dependency injection)
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
+builder.Services.AddScoped<IQuizRepository, QuizRepository>();
 //builder.Services.AddScoped<IQuestionRepository, QuestionRepository>(); //lägg till senare
 //builder.Services.AddScoped<IAnswerOptionRepository, AnswerOptionRepository>(); //lägg till senare
 builder.Services.AddScoped<IUserResultRepository, UserResultRepository>(); //lägg till senare
