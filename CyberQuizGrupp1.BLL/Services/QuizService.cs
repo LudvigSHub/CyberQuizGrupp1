@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using CyberQuizGrupp1.BLL.Interfaces;
+using CyberQuizGrupp1.DAL.Repositories.Interfaces;
 using CyberQuizGrupp1.SHARED.DTOs;
 using CyberQuizGrupp1.SHARED.Models;
 
@@ -10,17 +11,17 @@ namespace CyberQuizGrupp1.BLL.Services
     public class QuizService : IQuizService
     {
         private readonly IQuizRepository _quizRepository;
-        
+
 
         public QuizService(IQuizRepository quizRepository)
         {
             _quizRepository = quizRepository;
         }
 
-        public async Task<StartQuizDTO> GetQuizBySubCategoryAsync(int subCategoryId, string userId)
+        public async Task<StartQuizDTO?> StartQuizAsync(int subCategoryId, string userId)
         {
-            var subCategory = await _quizRepository.GetQuizBySubCategoryIdAsync(subCategoryId);
-            if (subCategory is 0)
+            var subCategory = await _quizRepository.GetQuizDataBySubCategoryIdAsync(subCategoryId);
+            if (subCategory is null)
             {
                 return null;
             }
@@ -34,7 +35,7 @@ namespace CyberQuizGrupp1.BLL.Services
                 FinishedAt = null
             };
 
-            await _quizRepository.AddAsync(attempt);
+            await _quizRepository.AddQuizAttemptAsync(attempt);
 
             var dto = new StartQuizDTO
             {

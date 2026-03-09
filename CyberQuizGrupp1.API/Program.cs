@@ -29,6 +29,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 //registrera repositories (dependency injection)
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
+builder.Services.AddScoped<IQuizRepository, QuizRepository>();
 //builder.Services.AddScoped<IQuestionRepository, QuestionRepository>(); //lägg till senare
 //builder.Services.AddScoped<IAnswerOptionRepository, AnswerOptionRepository>(); //lägg till senare
 builder.Services.AddScoped<IUserResultRepository, UserResultRepository>(); //lägg till senare
@@ -36,6 +37,7 @@ builder.Services.AddScoped<IUserResultRepository, UserResultRepository>(); //lä
 //registrera services (business logic)
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ISubCategoryService, SubCategoryService>(); //röd markering på grund av att BLL inte implementerat ISubCategoryService och SubCategoryService än?
+builder.Services.AddScoped<IQuizService, QuizService>();
 //builder.Services.AddScoped<IQuestionService, QuestionService>(); //lägg till senare
 //builder.Services.AddScoped<IProgressionService, ProgressionService>(); //lägg till senare
 
