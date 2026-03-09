@@ -11,22 +11,23 @@
 
 <h1 class="mb-4">Registrera konto</h1>
 
-<div>
+<div class="d-flex flex-column align-items-center">
     @* TILLFÄLLIG DEBUG:
     <p style="color: yellow;">@debugMessage</p> *@
-    <p style="color: red;">@errorMessage</p>
+    
 
-    <EditForm Model="registerDTO" OnValidSubmit="HandleRegisterAsync">
-        <DataAnnotationsValidator /> @* aktiverar requred och compare i DTOn (RegisterDTO) *@
-
-        <div class="d-flex flex-column gap-3">
+    <EditForm Model="registerDTO" OnSubmit="HandleRegisterAsync" style="display: flex; flex-direction: column; align-items: center;">
+        
+        <div class="d-flex flex-column gap-3 align-items-center">
             <InputText placeholder="Användarnamn" @bind-Value="registerDTO.Username" class="cyber-input" />
+            <InputText type="email" placeholder="Email" @bind-Value="registerDTO.Email" class="cyber-input" />
             <InputText type="password" placeholder="Lösenord" @bind-Value="registerDTO.Password" class="cyber-input" />
             <InputText type="password" placeholder="Bekräfta lösenord" @bind-Value="registerDTO.ConfirmPassword" class="cyber-input" />
-            <button type="submit" class="btn-cyber">Registrera konto</button>
+            <button type="submit" class="btn-cyber" style="width: auto;">Registrera konto</button>
 
-                <div style="position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); white-space: nowrap;">
-                <ValidationSummary /> @* visar error meddelande skrivna i dton vi använder (RegisterDTO) *@
+                <div style="min-height: 1.5rem; text-align: center">
+                <p class="cyber-message" style="margin: 0;">@Message</p>
+                <p class="cyber-message-danger" style="margin: 0;">@ErrorMessage</p> 
             </div>
         </div>
     </EditForm>
@@ -35,28 +36,49 @@
 @code {
 
     private RegisterDTO registerDTO = new(); //hämta registerDTO så vi kan binda till propsen i den, se @bind-value ovan
-    private string errorMessage = ""; // för att visa error meddelande om registrering misslyckas
-    
-    
+    private string ErrorMessage = ""; // för att visa error meddelande om registrering misslyckas
+    private string Message = "";
+
     // TILLFÄLLIG DEBUG:
     // private string debugMessage = ""; 
 
 
     private async Task HandleRegisterAsync()
     {
-        //TILLFÄLLIG DEBUG:
-        // debugMessage = "HandleRegisterAsync called";
+        if (string.IsNullOrEmpty(registerDTO.Username) ||
+        string.IsNullOrEmpty(registerDTO.Email) ||
+        string.IsNullOrEmpty(registerDTO.Password) ||
+        string.IsNullOrEmpty(registerDTO.ConfirmPassword))
+        {
+            ErrorMessage = "Registrering misslyckades. Vänligen fyll i alla fält. Tänk på att din email måste innehålla @. Lösenorden måste matcha, vara längre än sju karaktärer långt coh innehålla minst en siffra. "; //visa för anävndaren om registreringen misslyckades
+            StateHasChanged();
 
+            await Task.Delay(10000);
+            ErrorMessage = "";
+            StateHasChanged();
+            return;
+        }
+
+        if (registerDTO.Password != registerDTO.ConfirmPassword)
+        {
+            ErrorMessage = "Lösenorden matchar inte.";
+            StateHasChanged();
+            await Task.Delay(5000);
+            ErrorMessage = "";
+            StateHasChanged();
+            return;
+        }
+
+        Message = "Registrerar användare, vänligen vänta";
+        await Task.Delay(2000);
+        ErrorMessage = "";
+        StateHasChanged();
 
         var success = await AuthService.RegisterAsync(registerDTO); // anropa registerasync-metoden i authservice och skicka med registerDTO som innehåller användarens input
         if (success) // om registreringen lyckades, skicka vidare till login page
         {
             Navigation.NavigateTo("/login");
         }
-        else
-        {
-            errorMessage = "Registrering misslyckades. Försök igen."; //visa för anävndaren om registreringen misslyckades
-        }
+        
     }
-
 }

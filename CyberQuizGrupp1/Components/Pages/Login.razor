@@ -22,11 +22,11 @@
             <div style="min-height: 1.5rem; text-align: center;">
             @if(!string.IsNullOrEmpty(ErrorMessage))
             {
-                <p class="cyber-message-danger">@ErrorMessage</p>
+                    <p class="cyber-message-danger" style="margin: 0;">@ErrorMessage</p> @* style = "margin: 0;" så att p inte flyttar annan kod *@
             }
             else
             {
-                <p class="cyber-message">@Message</p>
+                    <p class="cyber-message" style="margin: 0;">@Message</p>
             }
             </div>
 
