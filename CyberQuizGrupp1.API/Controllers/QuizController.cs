@@ -17,10 +17,10 @@ namespace CyberQuizGrupp1.API.Controllers
             _quizService = quizService;
         }
 
-        //post: api/quiz/start?subCategoryId
+        //GET: api/quiz/start?subCategoryId
         //startar ett nytt quiz för en specifik subkategori och användare
-        [HttpPost("start")]
-        public async Task<ActionResult<StartQuizDTO>> StartQuiz([FromQuery] int subCategoryId, [FromQuery] string userId)
+        [HttpGet("start/{subCategoryId}")]
+        public async Task<ActionResult<StartQuizDTO>> StartQuiz(int subCategoryId, [FromQuery] string userId)
         {
             //snabb validering av input
             if (subCategoryId <= 0)
