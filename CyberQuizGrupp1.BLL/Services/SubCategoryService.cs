@@ -11,7 +11,7 @@ namespace CyberQuizGrupp1.BLL.Services
     public class SubCategoryService : ISubCategoryService
     {
 
-        private const double RequiredScorePercentage = 80.0;
+        private const double RequiredScorePercentage = 75.0;
 
         private readonly ISubCategoryRepository _subCategoryRepository;
         private readonly IUserResultRepository _userResultRepository;
