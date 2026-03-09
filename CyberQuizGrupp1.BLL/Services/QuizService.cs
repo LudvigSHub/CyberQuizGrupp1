@@ -52,7 +52,7 @@ namespace CyberQuizGrupp1.BLL.Services
                     Id = q.Id,
                     Text = q.Text,
                     AnswerOptions = q.AnswerOptions
-                    .OrderBy(a => a.Id)
+                    .OrderBy(a => Guid.NewGuid())
                     .Select(a => new AnswerOptionDTO
                     {
                         Id = a.Id,
