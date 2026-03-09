@@ -12,6 +12,7 @@ namespace CyberQuizGrupp1.UI.Services
     public class QuizService
     {
         private readonly HttpClient _httpClient;
+
         public QuizService(HttpClient httpClient)
         {
             _httpClient = httpClient;

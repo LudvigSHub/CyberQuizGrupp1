@@ -8,5 +8,9 @@ namespace CyberQuizGrupp1.BLL.Interfaces
     public interface IQuizService
     {
         Task<StartQuizDTO?> StartQuizAsync(int subCategoryId, string userId);
+
+        Task<AnswerFeedbackDTO?> SubmitAnswerAsync(SubmitAnswerDTO dto);
+
+        Task<QuizResultDTO?> FinishQuizAsync(FinishQuizDTO dto);
     }
 }
