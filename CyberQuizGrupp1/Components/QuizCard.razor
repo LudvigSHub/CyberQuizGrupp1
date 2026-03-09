@@ -1,6 +1,7 @@
 ﻿@using CyberQuizGrupp1.UI.Services
 @inject QuizService QuizService
 @inject UserService UserService
+@rendermode InteractiveServer
 
 
 <div>
@@ -36,7 +37,7 @@
             <label>
                 <input type="radio"
                        name="question-@question.Id"
-                       disabled="isSubmittingAnswer"
+                       disabled="@isSubmittingAnswer"
                        @onchange="() => SubmitAnswer(question.Id, answer.Id)" />
                 @answer.Text @* svaret i textform *@
             </label>
@@ -49,6 +50,8 @@
         }
 
     </div>
+        @*  Debug: *@
+        <p>@message</p>
     }
 </div>
 
@@ -71,10 +74,13 @@
     {
         await UserService.LoadUserAsync();
         quiz = await QuizService.GetQuizAsync(SubCategoryId, UserService.UserId);
+        // Console.WriteLine($"Quiz laddad: {quiz?.SubCategoryName}, Frågor: {quiz?.Questions?.Count}");
     }
 
     private async Task SubmitAnswer(int questionId, int answerOptionId)
     {
+        message = "Submit körs"; //DEBUG
+
         //om antingen quizet är null eller om frågan redan är svarad på (isSubmittingAnswer) eller om quizet är klart - avbryt hela SubmitAnswer metoden direkt
         if (quiz is null || isSubmittingAnswer || isFinished) //quiz is null för om användaren klickar på ett svar innan quizet hunnit laddas kan quiz fortfarande vara null. is null ist för == null för det "är modernare"
             return;
@@ -94,6 +100,7 @@
 
         //skcika vidare DTOn ovan till SubmitAnswerAsync i QuizService för att få kontrollerat om svaret är rätt/fel
         var result = await QuizService.SubmitAnswerAsync(dto);
+        Console.WriteLine(result == null ? "RESULT = NULL" : "RESULT OK");
 
         //säkerhetskontroll
         if (result is null)
