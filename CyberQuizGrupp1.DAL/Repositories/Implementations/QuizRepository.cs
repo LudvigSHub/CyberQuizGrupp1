@@ -38,5 +38,54 @@ namespace CyberQuizGrupp1.DAL.Repositories.Implementations
             //sparar ändringarna till databasen (kör insert-kommandot)
             await _context.SaveChangesAsync();
         }
+
+        //hämtar ett quiz-försök baserat på attemptid
+        public async Task<QuizAttemptModel?> GetQuizAttemptByIdAsync(Guid attemptId)
+        {
+            //hämtar första quiz-försöket med matchande id eller null om det inte finns
+            return await _context.QuizAttempts
+                .FirstOrDefaultAsync(a => a.Id == attemptId);
+        }
+
+        //hämtar en fråga med alla dess svarsalternativ
+        public async Task<QuestionModel?> GetQuestionWithAnswerOptionsAsync(int questionId)
+        {
+            //hämtar frågan och inkluderar alla svarsalternativ (eager loading)
+            return await _context.Questions
+                .Include(q => q.AnswerOptions) //inkludera alla svarsalternativ för frågan
+                .FirstOrDefaultAsync(q => q.Id == questionId); //hämta första frågan med matchande id eller null om den inte finns
+        }
+
+        //sparar ett användarsvar i databasen
+        public async Task AddUserAnswerAsync(UserAnswerModel userAnswer)
+        {
+            //lägger till användarsvaret i dbset (märks som "added" i change tracker)
+            await _context.UserAnswers.AddAsync(userAnswer);
+            //sparar ändringarna till databasen (kör insert-kommandot)
+            await _context.SaveChangesAsync();
+        }
+
+        //hämtar alla användarsvar för ett specifikt quiz-försök
+        public async Task<List<UserAnswerModel>> GetUserAnswersByAttemptIdAsync(Guid attemptId)
+        {
+            //hämtar alla användarsvar som tillhör det specifika försöket
+            return await _context.UserAnswers
+                .Where(ua => ua.AttemptId == attemptId) //filtrera på attemptid
+                .ToListAsync(); //konvertera till lista
+        }
+
+        //markerar ett quiz-försök som avslutat genom att sätta finishedat
+        public async Task MarkQuizAttemptAsFinishedAsync(Guid attemptId)
+        {
+            //hämta quiz-försöket från databasen
+            var attempt = await _context.QuizAttempts.FirstOrDefaultAsync(a => a.Id == attemptId);
+
+            //om försöket finns, sätt finishedat till nuvarande tid
+            if (attempt != null)
+            {
+                attempt.FinishedAt = DateTime.UtcNow; //använd utc för konsekvent tidszon
+                await _context.SaveChangesAsync(); //spara ändringen
+            }
+        }
     }
 }
