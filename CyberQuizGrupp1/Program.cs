@@ -82,4 +82,15 @@ app.MapPost("/logout", async (SignInManager<ApplicationUser> signInManager) =>
     return Results.Redirect("/");
 });
 
+//seeda testanvändare vid app-start
+using (var scope = app.Services.CreateScope())
+{
+    //hämta usermanager från dependency injection
+    var userManager = scope.ServiceProvider
+        .GetRequiredService<UserManager<ApplicationUser>>();
+
+    //anropa identityseeder för att skapa testanvändare
+    await IdentitySeeder.SeedUserAsync(userManager);
+}
+
 app.Run();
