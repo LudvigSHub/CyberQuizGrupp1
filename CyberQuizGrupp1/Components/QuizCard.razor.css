@@ -1,0 +1,18 @@
+﻿.category-card {
+    cursor: default;
+}
+
+    .category-card:hover {
+        background-color: #0a0a0f;
+        box-shadow: none;
+    }
+
+label:has(input[type="radio"]:disabled) {
+    opacity: 1;
+    cursor: default;
+}
+
+input[type="radio"]:disabled {
+    opacity: 1;
+    accent-color: #00ff88;
+}
