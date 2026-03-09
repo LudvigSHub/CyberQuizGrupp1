@@ -24,5 +24,14 @@ namespace CyberQuizGrupp1.DAL.Repositories.Implementations
                 .Where(r => r.UserId == userId)
                 .ToListAsync();
         }
+
+        //sparar ett nytt quiz-resultat i databasen
+        public async Task AddAsync(UserResultModel userResult)
+        {
+            //lägger till resultatet i dbset (märks som "added" i change tracker)
+            await _context.UserResults.AddAsync(userResult);
+            //sparar ändringarna till databasen (kör insert-kommandot)
+            await _context.SaveChangesAsync();
+        }
     }
 }
