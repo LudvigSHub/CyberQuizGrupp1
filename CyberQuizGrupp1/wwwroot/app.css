@@ -73,7 +73,7 @@ h1, h2, h3 {
 }
 
 .btn-cyber {
-    width: 200px;
+    width: 150px;
     align-self: center;
     background-color: transparent;
     color: #00ff88;
@@ -93,6 +93,7 @@ h1, h2, h3 {
     }
 
 .btn-cyber-danger {
+    width: 150px;
     background-color: transparent;
     color: #ff4444;
     border: 1px solid #ff4444;
@@ -122,6 +123,8 @@ h1 {
     padding: 0.5rem 1rem;
     width: 250px;
     outline: none;
+    width: 250px;
+    text-align: center;
 }
 
     .cyber-input:focus {
