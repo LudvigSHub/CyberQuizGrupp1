@@ -39,5 +39,37 @@ namespace CyberQuizGrupp1.API.Controllers
             //returnera quiz-data med 200 ok
             return Ok(quiz);
         }
+
+        //POST: api/quiz/answer
+        //skickar in ett svar på en quiz-fråga och får feedback om det var rätt eller fel
+        [HttpPost("answer")]
+        public async Task<ActionResult<AnswerFeedbackDTO>> SubmitAnswer([FromBody] SubmitAnswerDTO dto)
+        {
+            //kalla bll för att hantera svaret
+            var result = await _quizService.SubmitAnswerAsync(dto);
+
+            //om svaret inte kunde sparas returnera 400
+            if (result == null)
+                return BadRequest("could not submit answer");
+
+            //returnera feedback med 200 ok
+            return Ok(result);
+        }
+
+        //POST: api/quiz/finish
+        //avslutar ett quiz och returnerar resultatet
+        [HttpPost("finish")]
+        public async Task<ActionResult<QuizResultDTO>> FinishQuiz([FromBody] FinishQuizDTO dto)
+        {
+            //kalla bll för att avsluta quizet
+            var result = await _quizService.FinishQuizAsync(dto);
+
+            //om quizet inte kunde avslutas returnera 400
+            if (result == null)
+                return BadRequest("could not finish quiz");
+
+            //returnera quiz-resultat med 200 ok
+            return Ok(result);
+        }
     }
 }
