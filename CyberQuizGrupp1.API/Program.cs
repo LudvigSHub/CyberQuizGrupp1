@@ -6,6 +6,7 @@ using CyberQuizGrupp1.DAL.Repositories.Implementations;
 using CyberQuizGrupp1.BLL.Interfaces;
 using CyberQuizGrupp1.BLL.Services;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 //lägg till dbcontext med sql server
@@ -41,6 +42,12 @@ builder.Services.AddScoped<IQuizService, QuizService>();
 //builder.Services.AddScoped<IQuestionService, QuestionService>(); //lägg till senare
 //builder.Services.AddScoped<IProgressionService, ProgressionService>(); //lägg till senare
 
+//registrera ollama options från appsettings
+builder.Services.Configure<OllamaOptions>(builder.Configuration.GetSection("Ollama"));
+//registrera coaching service (business logic)
+builder.Services.AddScoped<ICoachingService, CoachingService>();
+//registrera ollama ai-klient med httpclient
+builder.Services.AddHttpClient<IAiCoachClient, OllamaCoachClient>();
 //lägg till controllers
 builder.Services.AddControllers();
 
