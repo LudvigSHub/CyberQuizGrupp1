@@ -12,5 +12,8 @@ namespace CyberQuizGrupp1.DAL.Repositories.Interfaces
 
         //sparar ett nytt quiz-resultat i databasen
         Task AddAsync(UserResultModel userResult);
+
+        //hämtar quiz-resultat för subkategori kopplat till en specifik användare 
+        Task<List<UserResultModel>> GetByUserIdAndSubCategoryIdAsync(string userId, int subCategoryId);
     }
 }

@@ -87,5 +87,20 @@ namespace CyberQuizGrupp1.DAL.Repositories.Implementations
                 await _context.SaveChangesAsync(); //spara ändringen
             }
         }
+
+        //hämtar alla användarsvar för en specifik användare och subkategori
+        //inkluderar både rätta och felaktiga svar så att bll kan göra den slutgiltiga analysen
+        public async Task<List<UserAnswerModel>> GetUserAnswersByUserAndSubCategoryAsync(string userId, int subCategoryId)
+        {
+            //hämtar alla användarsvar genom att filtrera på userid och subkategoryid
+            //inkluderar quiz-försök, fråga med svarsalternativ och det valda svaret för fullständig analys
+            return await _context.UserAnswers
+                .Include(ua => ua.Attempt) //inkludera quiz-försöket för att kunna filtrera på subkategori
+                .Include(ua => ua.Question) //inkludera frågan för användarsvaret
+                    .ThenInclude(q => q.AnswerOptions) //inkludera alla svarsalternativ för frågan
+                .Include(ua => ua.SelectedAnswerOption) //inkludera det svar användaren valde
+                .Where(ua => ua.UserId == userId && ua.Attempt.SubCategoryId == subCategoryId) //filtrera på användare och subkategori
+                .ToListAsync(); //konvertera till lista
+        }
     }
 }

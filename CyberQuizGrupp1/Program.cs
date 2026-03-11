@@ -35,6 +35,13 @@ builder.Services.AddHttpClient<SubCategoryService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:7231/");
 });
+
+//added: coaching service för ai-coach funktionalitet
+builder.Services.AddHttpClient<CoachingService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7231/"); //matcha api-porten
+});
+
 //added:
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
