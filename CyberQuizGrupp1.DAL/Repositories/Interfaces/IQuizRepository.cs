@@ -37,7 +37,7 @@ namespace CyberQuizGrupp1.DAL.Repositories.Interfaces
 
         //hämtar alla felaktiga användarsvar för en specifik användare och subkategori
         //används i coaching-flödet för att analysera vilka frågor användaren ofta svarar fel på
-        Task<List<UserAnswerModel>> GetIncorrectUserAnswersByUserAndSubCategoryAsync(string userId, int subCategoryId);
+        Task<List<UserAnswerModel>> GetUserAnswersByUserAndSubCategoryAsync(string userId, int subCategoryId);
 
     }
 }
