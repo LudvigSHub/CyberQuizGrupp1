@@ -34,5 +34,10 @@ namespace CyberQuizGrupp1.DAL.Repositories.Interfaces
         //markerar ett quiz-försök som avslutat genom att sätta finishedAt
         //används när användaren slutför quizet
         Task MarkQuizAttemptAsFinishedAsync(Guid attemptId);
+
+        //hämtar alla felaktiga användarsvar för en specifik användare och subkategori
+        //används i coaching-flödet för att analysera vilka frågor användaren ofta svarar fel på
+        Task<List<UserAnswerModel>> GetUserAnswersByUserAndSubCategoryAsync(string userId, int subCategoryId);
+
     }
 }

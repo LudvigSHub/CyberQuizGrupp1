@@ -33,5 +33,15 @@ namespace CyberQuizGrupp1.DAL.Repositories.Implementations
             //sparar ändringarna till databasen (kör insert-kommandot)
             await _context.SaveChangesAsync();
         }
+
+        //hämtar alla quiz-resultat för en specifik användare och subkategori
+        //används för att analysera användarens prestanda i en specifik subkategori för coaching
+        public async Task<List<UserResultModel>> GetByUserIdAndSubCategoryIdAsync(string userId, int subCategoryId)
+        {
+            //hämtar alla resultat som matchar både userid och subkategoryid
+            return await _context.UserResults
+                .Where(r => r.UserId == userId && r.SubCategoryId == subCategoryId) //filtrera på både användare och subkategori
+                .ToListAsync(); //konvertera till lista
+        }
     }
 }
