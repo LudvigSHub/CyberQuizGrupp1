@@ -1,4 +1,5 @@
 ﻿using CyberQuizGrupp1.SHARED.DTOs;
+using Microsoft.Extensions.Configuration.UserSecrets;
 
 namespace CyberQuizGrupp1.UI.Services
 {
@@ -13,9 +14,9 @@ namespace CyberQuizGrupp1.UI.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<CategoryDTO>> GetCategoriesAsync()
+        public async Task<List<CategoryDTO>> GetCategoriesAsync(string userId)
         {
-            return await _httpClient.GetFromJsonAsync<List<CategoryDTO>>($"api/categories") ?? [];
+            return await _httpClient.GetFromJsonAsync<List<CategoryDTO>>($"api/categories/{userId}") ?? [];
         }
     }
 }

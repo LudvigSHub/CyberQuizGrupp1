@@ -45,8 +45,7 @@
         <span style="width:40px; text-align:right;">@userProgress.ProgressPercentage%</span>
 
             <div style="width: 100%; background-color: #1a1a2e; border-radius: 999px; height: 12px; margin-top: 0.5rem;">
-                <div style="width: @(userProgress.ProgressPercentage)%; background-color: #00ff88; height: 12px; border-radius: 999px; transition: width 0.5s ease;">
-            </div>
+                    <div style="width:@(userProgress.ProgressPercentage.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture))%; background-color:#00ff88; height:12px; border-radius:999px; transition:width 0.5s ease;"></div>
             </div>
             </div>
         }
@@ -79,12 +78,6 @@
             userProgress = await CoachingService
                 .GetUserProgressAsync(UserService.UserId);
         }
-
-        //fejkvärde
-        userProgress = new UserProgressDTO
-        {
-            ProgressPercentage = 50
-        };
     }
 
     private void GoBack()
