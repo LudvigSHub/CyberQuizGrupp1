@@ -7,6 +7,6 @@ namespace CyberQuizGrupp1.BLL.Interfaces
 {
     public interface ICategoryService
     {
-        Task<List<CategoryDTO>> GetAllCategoriesAsync();
+        Task<List<CategoryDTO>> GetAllCategoriesAsync(string userId);
     }
 }

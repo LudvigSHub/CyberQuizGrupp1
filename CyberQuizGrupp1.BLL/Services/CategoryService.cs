@@ -16,9 +16,9 @@ namespace CyberQuizGrupp1.BLL.Services
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<List<CategoryDTO>> GetAllCategoriesAsync()
+        public async Task<List<CategoryDTO>> GetAllCategoriesAsync(string userId)
         {
-            var categories = await _categoryRepository.GetAllAsync();
+            var categories = await _categoryRepository.GetAllAsync(userId);
 
             return categories
                 .OrderBy(c => c.Id)
@@ -26,7 +26,9 @@ namespace CyberQuizGrupp1.BLL.Services
                 {
                     Id = c.Id,
                     CategoryName = c.Name,
-                    
+                    TotalSubCategories = c.SubCategories.Count,
+                    CompletedSubCategories = 0
+
                 })
                 .ToList();
         }
