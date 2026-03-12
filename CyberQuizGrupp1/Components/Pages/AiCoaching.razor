@@ -11,19 +11,15 @@ else if (!string.IsNullOrWhiteSpace(errorMessage))
 {
     <p>@errorMessage</p>
 }
-else 
-
-@if (failedSubCategories == null || !failedSubCategories.Any())
+else if (failedSubCategories == null || !failedSubCategories.Any())
 {
     <p>Du behöver ingen coaching på någon subkategori just nu, bra jobbat!</p>
 }
 else
 {
-    //visar varje subkategori där slutresultatet blev 50% rätt eller mindre
     @foreach (var item in failedSubCategories)
     {
-        //ändra storlek på cardet anpassat efter hur stor plats coachingresultatet tar
-        <div class="subcategory-card" style="width: @(coachingResults.ContainsKey(item.SubCategoryId) ? "900px" : "400px"); height: auto; cursor: default" ;>
+        <div class="subcategory-card" style="@GetCardStyle(item.SubCategoryId)">
             <h3 class="bigTitle">@item.SubCategoryName</h3>
 
             <button class="btn-cyber" @onclick="() => LoadCoachingAsync(item.SubCategoryId)">Få feedback av AI</button>
@@ -33,7 +29,7 @@ else
                 <p class="mt-2" style="margin: 0;">AI tänker...</p>
             }
 
-            @if (coachingResults.TryGetValue(item.SubCategoryId, out var coaching)) //trygetvalue kollar om värdet finns i dictionary och hämtar värdet. om nyckeln finns returneras true och värdet läggs i out parametern
+            @if (coachingResults.TryGetValue(item.SubCategoryId, out var coaching))
             {
                 <p class="miniTitle mb-0" style="color: #00ff88">Dina styrkor</p>
                 <p>@coaching.StrengthSummary</p>
@@ -50,16 +46,13 @@ else
 
 @code {
     private List<CoachingItemDTO>? failedSubCategories;
-    private Dictionary<int, CoachingResponseDTO> coachingResults = new(); //dicionayr istället för en lista för att snabbare få fram ett värde (coaching-svaret) kopplat till ett id (subkategoriId)
+    private Dictionary<int, CoachingResponseDTO> coachingResults = new();
 
     private bool isLoading = true;
     private int? loadingSubCategoryId = null;
     private string errorMessage = "";
-
     private string userId = string.Empty;
 
-    //olika sätt att hantera fel på (med tillhörande metoder i coachingservice)
-    //if satser
     protected override async Task OnInitializedAsync()
     {
         await UserService.LoadUserAsync();
@@ -77,12 +70,12 @@ else
 
         if (failedSubCategories == null)
         {
-            errorMessage = $"Något gick fel";
+            errorMessage = "Något gick fel";
         }
+
         isLoading = false;
     }
 
-    //try catch
     private async Task LoadCoachingAsync(int subCategoryId)
     {
         try
@@ -105,5 +98,10 @@ else
             loadingSubCategoryId = null;
         }
     }
-    //-----------------------------------------------------------
+
+    private string GetCardStyle(int subCategoryId)
+    {
+        var width = coachingResults.ContainsKey(subCategoryId) ? "900px" : "400px";
+        return $"width: {width}; height: auto; cursor: default;";
+    }
 }
