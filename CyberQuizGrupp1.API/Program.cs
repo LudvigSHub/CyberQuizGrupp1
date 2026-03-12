@@ -5,6 +5,7 @@ using CyberQuizGrupp1.DAL.Repositories.Interfaces;
 using CyberQuizGrupp1.DAL.Repositories.Implementations;
 using CyberQuizGrupp1.BLL.Interfaces;
 using CyberQuizGrupp1.BLL.Services;
+using CyberQuizGrupp1.BLL.Options;
 
 
 var builder = WebApplication.CreateBuilder(args);

@@ -23,13 +23,15 @@
         @if (Navigation.Uri != Navigation.BaseUri && !Navigation.Uri.Contains("/login") && !Navigation.Uri.Contains("/register"))
         {
             <div style="margin-left: auto; display: flex; gap: 0.5rem;">
+            <button class="btn-cyber" @onclick="GoToAiCoaching">AI Coaching</button> 
+
             <button class="btn-cyber" @onclick="GoToUser">Mitt konto</button> 
 
         @*  KAN INTE vara en klassisk onclick metod (nedan) för att logga ut. navigation med forceload:true till /logout är en POST-endpoint, men navigateto gör en GET-request, fick ändra till form *@
         @* <button class="btn-cyber-danger" style="width: auto; margin-left: auto;" @onclick="Logout">Logga ut</button> *@
             <form action="/logout" method="post" style="width: 150px;">
                 <AntiforgeryToken />
-                <button type="submit" class="btn-cyber-danger" style="width: 100%">Logga ut</button>
+                    <button type="submit" class="btn-cyber-danger" style="width: 150px;">Logga ut</button>
             </form>
             </div>
         }
@@ -63,6 +65,11 @@
     private void GoToUser()
     {
         Navigation.NavigateTo("/user");
+    }
+
+    public void GoToAiCoaching()
+    {
+        Navigation.NavigateTo("/AiCoaching");
     }
 
     //FUNKAR INTE:
