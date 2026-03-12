@@ -7,6 +7,6 @@ namespace CyberQuizGrupp1.BLL.Interfaces
 {
     public interface IProgressService
     {
-        Task<UserProgressDTO> GetUserProgress(string userId);
+        Task<UserProgressDTO> GetUserProgressAsync(string userId);
     }
 }

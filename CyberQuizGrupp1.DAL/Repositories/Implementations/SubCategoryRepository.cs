@@ -28,5 +28,13 @@ namespace CyberQuizGrupp1.DAL.Repositories.Implementations
                 .OrderBy(sc => sc.Id)
                 .ToListAsync();
         }
+
+        //hämtar alla subkategorier
+        public async Task<List<SubCategoryModel>> GetAllAsync()
+        {
+            return await _context.SubCategories //hämtar från tabellen SubCategories
+                .OrderBy(sc => sc.Id)           //sorterar efter Id
+                .ToListAsync();                 //gör om till lista 
+        }
     }
 }

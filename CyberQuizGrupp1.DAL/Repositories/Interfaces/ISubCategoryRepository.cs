@@ -9,5 +9,8 @@ namespace CyberQuizGrupp1.DAL.Repositories.Interfaces
     {
         //hämta alla subkategorier för en kategori 
         Task<List<SubCategoryModel>> GetByCategoryIdAsync(int categoryId);
+
+        //hämta alla subkategorier som ska användas för att visa i progressbar
+        Task<List<SubCategoryModel>> GetAllAsync();
     }
 }
