@@ -40,6 +40,7 @@ builder.Services.AddScoped<IUserResultRepository, UserResultRepository>(); //lä
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ISubCategoryService, SubCategoryService>(); //röd markering på grund av att BLL inte implementerat ISubCategoryService och SubCategoryService än?
 builder.Services.AddScoped<IQuizService, QuizService>();
+builder.Services.AddScoped<IProgressService, ProgressService>();
 //builder.Services.AddScoped<IQuestionService, QuestionService>(); //lägg till senare
 //builder.Services.AddScoped<IProgressionService, ProgressionService>(); //lägg till senare
 
