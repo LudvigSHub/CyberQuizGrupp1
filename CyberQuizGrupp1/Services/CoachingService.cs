@@ -29,5 +29,17 @@ namespace CyberQuizGrupp1.UI.Services
                 $"api/coaching/{subCategoryId}?userId={userId}");
         }
         //----------------------------------------------------------------------
+
+        public async Task<UserProgressDTO?> GetUserProgressAsync(string userId)
+        {
+            var response = await _httpClient.GetAsync($"api/coaching/progress?userId={userId}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            return await response.Content.ReadFromJsonAsync<UserProgressDTO>();
+        }
     }
 }

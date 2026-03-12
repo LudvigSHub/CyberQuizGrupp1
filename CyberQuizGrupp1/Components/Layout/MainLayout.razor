@@ -2,12 +2,15 @@
 @inherits LayoutComponentBase
 @inject NavigationManager Navigation
 @inject AuthService AuthService
+@inject UserService UserService
+@inject CoachingService CoachingService
 
 <div class="page">
     @* <div class="sidebar">
         <NavMenu />
     </div> *@
     <header class="app-header">
+        <div style="display:flex; align-items:center; width:100%; gap:10px;">
         @* visa endast knappen om vi INTE är på home page/start page *@
         @if (Navigation.Uri != Navigation.BaseUri)
         {
@@ -35,6 +38,19 @@
             </form>
             </div>
         }
+        </div>
+        @if (userProgress != null)
+        {
+            <div style="display:flex; align-items:center; gap:0.5rem; width:100%; margin-top:0.5rem;">
+        <span style="width:40px; text-align:right;">@userProgress.ProgressPercentage%</span>
+
+            <div style="width: 100%; background-color: #1a1a2e; border-radius: 999px; height: 12px; margin-top: 0.5rem;">
+                <div style="width: @(userProgress.ProgressPercentage)%; background-color: #00ff88; height: 12px; border-radius: 999px; transition: width 0.5s ease;">
+            </div>
+            </div>
+            </div>
+        }
+        
         </header>
 
     <main>
@@ -51,6 +67,26 @@
 </div>
 
 @code {
+
+    private UserProgressDTO? userProgress;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await UserService.LoadUserAsync();
+
+        if (!string.IsNullOrWhiteSpace(UserService.UserId))
+        {
+            userProgress = await CoachingService
+                .GetUserProgressAsync(UserService.UserId);
+        }
+
+        //fejkvärde
+        userProgress = new UserProgressDTO
+        {
+            ProgressPercentage = 50
+        };
+    }
+
     private void GoBack()
     {
         Navigation.NavigateTo("javascript:history.back()");
