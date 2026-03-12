@@ -85,8 +85,9 @@
         //om antingen quizet är null eller om frågan redan är svarad på (isSubmittingAnswer) eller om quizet är klart - avbryt hela SubmitAnswer metoden direkt
         if (quiz is null || isSubmittingAnswer || isFinished) //quiz is null för om användaren klickar på ett svar innan quizet hunnit laddas kan quiz fortfarande vara null. is null ist för == null för det "är modernare"
             return;
-
-        StateHasChanged();
+        
+        //för att radioknappen ska fyllas i, uppdatera ui med state 
+        StateHasChanged(); 
         await Task.Delay(1000);
 
         //detta körs om inget av det ovan stämmer, alltså
@@ -104,7 +105,8 @@
 
         //skcika vidare DTOn ovan till SubmitAnswerAsync i QuizService för att få kontrollerat om svaret är rätt/fel
         var result = await QuizService.SubmitAnswerAsync(dto);
-        Console.WriteLine(result == null ? "RESULT = NULL" : "RESULT OK");
+        //DEBUG:
+        Console.WriteLine(result == null ? "RESULT = NULL" : "RESULT OK"); 
 
         //säkerhetskontroll
         if (result is null)
@@ -134,7 +136,7 @@
 
             if (finalResult is not null) //om resultatet inte är tomt (is not null ist för finalResult != null eftersom det är "modernare")
             {
-                //här hämtar vi variablerna från backeneden med nya värden och uppdaterar dom i frontenden så vi kan displaya dom
+                //här hämtar vi fieldsen från backeneden med nya värden och uppdaterar dom i frontenden så vi kan displaya dom
                 correctAnswers = finalResult.CorrectAnswers;
                 totalQuestions = finalResult.TotalQuestions;
             }

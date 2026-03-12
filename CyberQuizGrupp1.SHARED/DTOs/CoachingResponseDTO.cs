@@ -4,15 +4,14 @@ using System.Text;
 
 namespace CyberQuizGrupp1.SHARED.DTOs
 {
+    //DTO som UI använder för att visa info för användaren
     public class CoachingResponseDTO
     {
         public int SubCategoryId { get; set; }
-        public string SubCategoryName { get; set; } = string.Empty;
-        
-        public string StrengthSummary { get; set; } = string.Empty;
-        public string WeaknessSummary { get; set; } = string.Empty;
-        public string CoachText { get; set; } = string.Empty;
-
+        public string SubCategoryName { get; set; } = "";
+        public string StrengthSummary { get; set; } = "";
+        public string WeaknessSummary { get; set; } = "";
+        public string CoachText { get; set; } = "";
 
     }
 }
