@@ -8,6 +8,6 @@ namespace CyberQuizGrupp1.DAL.Repositories.Interfaces
     public interface ICategoryRepository
     {
         //hämta alla kategorier från databasen
-        Task<List<CategoryModel>> GetAllAsync();
+        Task<List<CategoryModel>> GetAllAsync(string userId);
     }
 }

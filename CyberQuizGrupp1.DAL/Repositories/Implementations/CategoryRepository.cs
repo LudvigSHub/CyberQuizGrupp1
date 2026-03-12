@@ -20,9 +20,20 @@ namespace CyberQuizGrupp1.DAL.Repositories.Implementations
         }
 
         //hämtar alla kategorier som en lista
-        public async Task<List<CategoryModel>> GetAllAsync()
+        //public async Task<List<CategoryModel>> GetAllAsync()
+        //{
+        //    return await _context.Categories
+        //        .Include(c => c.SubCategories)
+        //.ToListAsync();
+        //}
+
+        public async Task<List<CategoryModel>> GetAllAsync(string userId)
         {
-            return await _context.Categories.ToListAsync();
+            return await _context.Categories
+                .Include(c => c.SubCategories)
+                    .ThenInclude(sc => sc.QuizAttempts.Where(qa => qa.UserId == userId))
+                        .ThenInclude(qa => qa.UserAnswers)
+                .ToListAsync();
         }
     }
 }

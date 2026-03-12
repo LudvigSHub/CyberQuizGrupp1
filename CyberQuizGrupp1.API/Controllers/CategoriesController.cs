@@ -24,10 +24,10 @@ namespace CyberQuizGrupp1.Controllers
 
         //get: api/categories
         //hämta alla kategorier
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetAll()
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetAll(string userId)
         {
-            var categories = await _categoryService.GetAllCategoriesAsync();
+            var categories = await _categoryService.GetAllCategoriesAsync(userId);
             return Ok(categories);
         }
 

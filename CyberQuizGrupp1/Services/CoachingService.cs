@@ -32,13 +32,12 @@ namespace CyberQuizGrupp1.UI.Services
 
         public async Task<UserProgressDTO?> GetUserProgressAsync(string userId)
         {
-            var response = await _httpClient.GetAsync($"api/coaching/progress?userId={userId}");
-
+            var response = await _httpClient.GetAsync($"api/progress/{userId}");
+            
             if (!response.IsSuccessStatusCode)
-            {
+            { 
                 return null;
             }
-
             return await response.Content.ReadFromJsonAsync<UserProgressDTO>();
         }
     }
