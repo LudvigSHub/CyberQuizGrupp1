@@ -73,7 +73,7 @@ h1, h2, h3 {
 }
 
 .btn-cyber {
-    width: 150px;
+    width: auto;
     align-self: center;
     background-color: transparent;
     color: #00ff88;

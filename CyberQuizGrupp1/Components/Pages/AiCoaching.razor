@@ -1,0 +1,109 @@
+﻿@page "/AiCoaching"
+@using CyberQuizGrupp1.UI.Services
+@inject UserService UserService
+@inject CoachingService CoachingService
+
+@if (isLoading)
+{
+    <p>Laddar AI</p>
+}
+else if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <p>@errorMessage</p>
+}
+else 
+
+@if (failedSubCategories == null || !failedSubCategories.Any())
+{
+    <p>Du behöver ingen coaching på någon subkategori just nu, bra jobbat!</p>
+}
+else
+{
+    //visar varje subkategori där slutresultatet blev 50% rätt eller mindre
+    @foreach (var item in failedSubCategories)
+    {
+        //ändra storlek på cardet anpassat efter hur stor plats coachingresultatet tar
+        <div class="subcategory-card" style="width: @(coachingResults.ContainsKey(item.SubCategoryId) ? "900px" : "400px"); height: auto; cursor: default" ;>
+            <h3 class="bigTitle">@item.SubCategoryName</h3>
+
+            <button class="btn-cyber" @onclick="() => LoadCoachingAsync(item.SubCategoryId)">Få feedback av AI</button>
+
+            @if (loadingSubCategoryId == item.SubCategoryId)
+            {
+                <p class="mt-2" style="margin: 0;">AI tänker...</p>
+            }
+
+            @if (coachingResults.TryGetValue(item.SubCategoryId, out var coaching)) //trygetvalue kollar om värdet finns i dictionary och hämtar värdet. om nyckeln finns returneras true och värdet läggs i out parametern
+            {
+                <p class="miniTitle mb-0" style="color: #00ff88">Dina styrkor</p>
+                <p>@coaching.StrengthSummary</p>
+
+                <p class="miniTitle mb-0" style="color: #ff4444">Dina svagheter</p>
+                <p>@coaching.WeaknessSummary</p>
+
+                <p class="miniTitle mb-0" style="color: #00ff88">Feedback från AI</p>
+                <p>@coaching.CoachText</p>
+            }
+        </div>
+    }
+}
+
+@code {
+    private List<CoachingItemDTO>? failedSubCategories;
+    private Dictionary<int, CoachingResponseDTO> coachingResults = new(); //dicionayr istället för en lista för att snabbare få fram ett värde (coaching-svaret) kopplat till ett id (subkategoriId)
+
+    private bool isLoading = true;
+    private int? loadingSubCategoryId = null;
+    private string errorMessage = "";
+
+    private string userId = string.Empty;
+
+    //olika sätt att hantera fel på (med tillhörande metoder i coachingservice)
+    //if satser
+    protected override async Task OnInitializedAsync()
+    {
+        await UserService.LoadUserAsync();
+
+        userId = UserService.UserId;
+
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            errorMessage = "Kunde inte hitta användaren";
+            isLoading = false;
+            return;
+        }
+
+        failedSubCategories = await CoachingService.GetFailedSubCategoriesAsync(userId);
+
+        if (failedSubCategories == null)
+        {
+            errorMessage = $"Något gick fel";
+        }
+        isLoading = false;
+    }
+
+    //try catch
+    private async Task LoadCoachingAsync(int subCategoryId)
+    {
+        try
+        {
+            loadingSubCategoryId = subCategoryId;
+
+            var coaching = await CoachingService.GetCoachingAsync(subCategoryId, userId);
+
+            if (coaching != null)
+            {
+                coachingResults[subCategoryId] = coaching;
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Kunde inte hämta AI coaching: {ex.Message}";
+        }
+        finally
+        {
+            loadingSubCategoryId = null;
+        }
+    }
+    //-----------------------------------------------------------
+}
