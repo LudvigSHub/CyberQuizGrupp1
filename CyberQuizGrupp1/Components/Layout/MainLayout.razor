@@ -42,7 +42,7 @@
         @if (userProgress != null)
         {
             <div style="display:flex; align-items:center; gap:0.5rem; width:100%; margin-top:0.5rem;">
-        <span style="width:40px; text-align:right;">@userProgress.ProgressPercentage%</span>
+        <span style="width:40px; text-align:right;">@userProgress.ProgressPercentage.ToString("0")%</span>
 
             <div style="width: 100%; background-color: #1a1a2e; border-radius: 999px; height: 12px; margin-top: 0.5rem;">
                     <div style="width:@(userProgress.ProgressPercentage.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture))%; background-color:#00ff88; height:12px; border-radius:999px; transition:width 0.5s ease;"></div>

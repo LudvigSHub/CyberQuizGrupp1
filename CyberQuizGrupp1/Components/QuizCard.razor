@@ -4,29 +4,29 @@
 @rendermode InteractiveServer
 
 
-<div class="d-flex flex-column align-items-center">
+<div class="d-flex flex-column align-items-center justify-content-center" style="min-height: calc(100vh - 140px);">
     @if (quiz is null) @* om quizet tar tid att laddas på pagen visas detta sålänge *@
     {
         <p>Laddar quiz</p>
     }
     else if (isFinished)
     {
-        <div>
-            <h4>Du har gjort klart quizet!</h4>
-            <h1>Poäng: @correctAnswers / @totalQuestions</h1>
+        <div class="d-flex flex-column align-items-center">
+            <h3 style="color: #e0e0e0">Du har gjort klart quizet!</h3>
+            <h1 style="text-shadow: 0 0 20px #00ff88;">Poäng: @correctAnswers / @totalQuestions</h1>
         </div>
     }
     else
     {
         <h1>@quiz.SubCategoryName</h1>
 
-        <div class="category-card" style="cursor: default; width: 700px">
+        <div class="category-card" style="cursor: default; width: 700px; height: 250px;">
 
             @{
                 var question = quiz.Questions[currentQuestionIndex]; @* hämta frågan vi är på *@
             }
 
-            <h4>@question.Text</h4> @* displaya frågan *@
+            <h3 class="mb-3">@question.Text</h3> @* displaya frågan *@
             <div @key="currentQuestionIndex">
                 @foreach (var answer in question.AnswerOptions)@* för varje svar i svarsalternativen som tillhör frågan *@
                 {
@@ -47,10 +47,10 @@
 
         </div>
         @* displayar meddelande om meddelande inte är tomt: *@
-        <div style="min-height: 3rem; text-align: center;">
+        <div style="min-height: 3rem; margin-top: 1.5rem; text-align: center;">
         @if (!string.IsNullOrWhiteSpace(message))
         {
-            <h3 style="color: @(message == "Rätt!" ? "#00ff88" : "#ff4444"); text-align: center;">@message</h3>
+            <h3 style="margin: 0; color: @(message == "Rätt!" ? "#00ff88" : "#ff4444"); text-align: center;">@message</h3>
         }
         </div>
     }
