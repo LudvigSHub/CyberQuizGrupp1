@@ -8,6 +8,9 @@ using CyberQuizGrupp1.SHARED.DTOs;
 
 namespace CyberQuizGrupp1.BLL.Services
 {
+    // Hämta user progress genom att räkna vilka subcategories som är avklarade
+    // räkna klarade subcategories av totala och gör om till procent
+    // returnera för att använda i progressbar i UI
     public class ProgressService : IProgressService
     {
         private readonly ISubCategoryRepository _subCategoryRepository;
