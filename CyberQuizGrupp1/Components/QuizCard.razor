@@ -4,7 +4,7 @@
 @rendermode InteractiveServer
 
 
-<div class="d-flex flex-column align-items-center justify-content-center" style="min-height: calc(100vh - 140px);">
+<div class="d-flex flex-column align-items-center">
     @if (quiz is null) @* om quizet tar tid att laddas på pagen visas detta sålänge *@
     {
         <p>Laddar quiz</p>
@@ -18,7 +18,7 @@
     }
     else
     {
-        <h1>@quiz.SubCategoryName</h1>
+        <h1 style="margin-bottom: 4rem;">@quiz.SubCategoryName</h1>
 
         <div class="category-card" style="cursor: default; width: 700px; height: 250px;">
 
