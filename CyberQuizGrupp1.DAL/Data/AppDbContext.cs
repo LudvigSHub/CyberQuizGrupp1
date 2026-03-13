@@ -48,35 +48,6 @@ namespace CyberQuizGrupp1.DAL.Data
             modelBuilder.Entity<AnswerOptionModel>()
                 .HasIndex(x => new { x.QuestionId, x.Text })
                 .IsUnique();
-            // -------------------------
-            // OPTIONAL: RELATIONSHIPS (om ni har navigation properties)
-            // Kommentera in om ni har t.ex:
-            // SubCategoryModel.Category, CategoryModel.SubCategories
-            // QuestionModel.SubCategory, SubCategoryModel.Questions
-            // AnswerOptionModel.Question, QuestionModel.AnswerOptions
-            // -------------------------
-            // modelBuilder.Entity<SubCategoryModel>()
-            //     .HasOne(sc => sc.Category)
-            //     .WithMany(c => c.SubCategories)
-            //     .HasForeignKey(sc => sc.CategoryId)
-            //     .OnDelete(DeleteBehavior.Restrict);
-            // modelBuilder.Entity<QuestionModel>()
-            //     .HasOne(q => q.SubCategory)
-            //     .WithMany(sc => sc.Questions)
-            //     .HasForeignKey(q => q.SubCategoryId)
-            //     .OnDelete(DeleteBehavior.Restrict);
-            // modelBuilder.Entity<AnswerOptionModel>()
-            //     .HasOne(a => a.Question)
-            //     .WithMany(q => q.AnswerOptions)
-            //     .HasForeignKey(a => a.QuestionId)
-            //     .OnDelete(DeleteBehavior.Cascade);
-            // -------------------------
-            // OPTIONAL: MANUELLA ID:N (endast om ni vill äga Id och INTE använda IDENTITY)
-            // OBS: kräver i praktiken clean reset/ny migration om DB redan skapats med IDENTITY.
-            // -------------------------
-            
-
-            
         
             base.OnModelCreating(modelBuilder);
 
