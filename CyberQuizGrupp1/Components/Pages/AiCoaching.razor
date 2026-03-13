@@ -20,15 +20,22 @@ else
     @foreach (var item in failedSubCategories)
     {
         //ändra storlek på cardet anpassat efter hur stor plats coachingresultatet tar
-        <div class="subcategory-card" style="width: @(coachingResults.ContainsKey(item.SubCategoryId) ? "900px" : "400px"); height: auto; cursor: default mb-4;">
-            <h3 class="bigTitle">@item.SubCategoryName</h3>
+        <div class="subcategory-card mb-4" style="width: @(coachingResults.ContainsKey(item.SubCategoryId) ? "900px" : "400px"); height: auto; cursor: default" ;>
+           
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <h3 class="bigTitle">@item.SubCategoryName</h3>
 
-            <button class="btn-cyber" @onclick="() => LoadCoachingAsync(item.SubCategoryId)">Få feedback av AI</button>
-
-            @if (loadingSubCategoryId == item.SubCategoryId)
-            {
-                <p class="mt-2" style="margin: 0;">AI tänker...</p>
-            }
+                    @if (loadingSubCategoryId == item.SubCategoryId)
+                    {
+                        <p style="margin: 0.5rem; padding: 0.5rem 1.5rem; font-weight: bold; letter-spacing: 1px; border: 1px solid transparent;">AI tänker...</p>
+                    }
+                    else
+                    {
+                        <button class="btn-cyber m-2" @onclick="() => LoadCoachingAsync(item.SubCategoryId)">
+                            Få feedback av AI
+                        </button>
+                    }
+                </div>
 
             @if (coachingResults.TryGetValue(item.SubCategoryId, out var coaching))
             {
