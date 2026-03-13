@@ -19,14 +19,6 @@ namespace CyberQuizGrupp1.DAL.Repositories.Implementations
             _context = context;
         }
 
-        //hämtar alla kategorier som en lista
-        //public async Task<List<CategoryModel>> GetAllAsync()
-        //{
-        //    return await _context.Categories
-        //        .Include(c => c.SubCategories)
-        //.ToListAsync();
-        //}
-
         public async Task<List<CategoryModel>> GetAllAsync(string userId)
         {
             return await _context.Categories
