@@ -24,6 +24,7 @@ namespace CyberQuizGrupp1.BLL.Services
             _aiCoachClient = aiCoachClient;
         }
 
+        // Hämta alla subcategories som användaren gjort men ej klarat
         public async Task<List<CoachingItemDTO>> GetFailedSubCategoriesAsync(string userId)
         {
             var userResults = await _userResultRepository.GetByUserIdAsync(userId);
@@ -54,6 +55,7 @@ namespace CyberQuizGrupp1.BLL.Services
             return result;
         }
 
+        // Hämta coaching för en specifik subcategory baserat på användarens svar
         public async Task<CoachingResponseDTO?> GetCoachingAsync(int subCategoryId, string userId)
         {
             var subCategory = await _quizRepository.GetQuizDataBySubCategoryIdAsync(subCategoryId);
@@ -68,16 +70,20 @@ namespace CyberQuizGrupp1.BLL.Services
             if (!userAnswers.Any())
                 return null;
 
+            // hämta upp alla frågor användaren svarat på i subkategorin och dela upp i rätt och fel
             var correctAnswers = userAnswers.Where(a => a.IsCorrect).ToList();
             var incorrectAnswers = userAnswers.Where(a => !a.IsCorrect).ToList();
 
+            // skapa underlag för styrkor och svagheter för AI 
             var strengthEvidence = BuildStrengths(correctAnswers);
             var weaknessEvidence = BuildWeaknesses(incorrectAnswers);
 
             var prompt = BuildPrompt(subCategory.Name, strengthEvidence, weaknessEvidence);
 
+            // skicka promten till AI och hämta coachingtext
             var aiText = await _aiCoachClient.GetCoachingTextAsync(prompt);
 
+            // gör om AI-svaret till en strukturerad DTO
             var parsedResponse = ParseAiResponse(aiText);
 
             return new CoachingResponseDTO
@@ -124,6 +130,7 @@ namespace CyberQuizGrupp1.BLL.Services
             return string.Join(", ", incorrectQuestionTexts);
         }
 
+        // skapa promt för AI med 1, styrkor, 2. svagheter, 3. rekommendation
         private string BuildPrompt(string subCategoryName, string strengths, string weaknesses)
         {
             var sb = new StringBuilder();
@@ -148,6 +155,7 @@ namespace CyberQuizGrupp1.BLL.Services
             return sb.ToString();
         }
 
+        // gör om responset så att det kan användas i UI efter styrkor, svagheter och coachingtext har plockats ut
         private CoachingResponseDTO ParseAiResponse(string aiText)
         {
             var response = new CoachingResponseDTO();
@@ -203,5 +211,5 @@ namespace CyberQuizGrupp1.BLL.Services
             return response;
         }
     }
-    }
+}
 

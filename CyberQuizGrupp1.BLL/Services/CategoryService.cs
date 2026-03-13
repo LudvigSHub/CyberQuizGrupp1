@@ -15,12 +15,14 @@ namespace CyberQuizGrupp1.BLL.Services
 
         public async Task<List<CategoryDTO>> GetAllCategoriesAsync(string userId)
         {
+            // Hämta alla kategorier och deras underkategorier för användaren
             var categories = await _categoryRepository.GetAllAsync(userId);
 
             return categories
                 .OrderBy(c => c.Id)
                 .Select(c =>
                 {
+                    // Räkna ut hur många subcategories som är klarade per category
                     var subCategoryDtos = c.SubCategories
                         .OrderBy(sc => sc.Id)
                         .Select(sc =>
@@ -39,7 +41,7 @@ namespace CyberQuizGrupp1.BLL.Services
                             };
                         })
                         .ToList();
-
+                    // mappa varje kategori till en CategoryDTO
                     return new CategoryDTO
                     {
                         Id = c.Id,
